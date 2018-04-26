@@ -61,10 +61,12 @@ int readcsv(const char *filepath, struct accelerometer acc_data[])
 
 void magnitude(struct accelerometer acc_data[], double magnitude_arr[])
 {
-	size_t length_acc_data = 7024; //sizeof(acc_data)/sizeof(acc_data[0]);
+	size_t length_acc_data =  sizeof(acc_data)/sizeof(acc_data[0]);
 	for ( size_t i=0; i < length_acc_data; i++ ){
 		magnitude_arr[i] = sqrt(
 		pow(acc_data[i].x, 2) + pow(acc_data[i].y, 2) + pow(acc_data[i].z, 2)
 		);
 	}
 }
+
+
