@@ -3,22 +3,21 @@
  * This is a script to unittest max.c using the CUnit interface.
  * The command to run the script is the following
  * 
- * gcc -Wall -c acc.c
+ * gcc -Wall -c acc.c main.c 
  * gcc -Wall -L/usr/local/lib -o acc_test acc_test.c acc.o -lcunit
  *
 */
+
 
 #include "CUnit/CUnit.h"
 #include "CUnit/Basic.h"
 //#include "CUnit/Automated.h"
 //#include "CUnit/Console.h"
 
-#include "acc.h"
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h> 
 
+#include "acc.h"
 
 /* Test Suite setup and cleanup functions: */
 
@@ -51,23 +50,51 @@ void max_test_1(void) {
   CU_ASSERT_EQUAL( 2, 2);
 }
 
-void magnitude_of_36_9_4_should_be_7(void) {
-  struct accelerometer acc_data[1] = {{36,9,4}};
+void magnitude_of_x6_y3_z2_should_be_7(void) {
+  struct accelerometer acc_data[1] = {
+    {.t = 10, .x=6., .y=3., .z=2.}
+  };
   double mag[1];
-  //magnitude(acc_data ,mag);
-  CU_ASSERT_EQUAL( 7 , 7);
+  magnitude(acc_data ,mag);
+  CU_ASSERT_EQUAL( mag[0] , 7);
 }
 
-void magnitude_is_commutative(void) {
-  struct accelerometer acc_data[2] = {{36,9,4}, {4,36,9}};
+void initialize_struct_accelerometer(void) {
+  struct accelerometer acc_data[1] = {
+    {.t = 10, .x=6., .y=3., .z=2.}
+  };  
+  CU_ASSERT_EQUAL( acc_data[0].t , 10);
+  CU_ASSERT_EQUAL( acc_data[0].x , 6);
+  CU_ASSERT_EQUAL( acc_data[0].y , 3);
+  CU_ASSERT_EQUAL( acc_data[0].z , 2);
+}
+
+void spatial_data_is_commutative_for_magnitude(void) {
+  struct accelerometer acc_data[2] = {
+    {.t = 10, .x=3., .y=6., .z=2.},
+    {.t = 10, .x=6., .y=3., .z=2.}
+  };
   double mag[2];
-  magnitude(acc_data,mag);
+  magnitude(acc_data, mag);
+  CU_ASSERT_EQUAL( mag[0] , mag[1]);
+}
+
+void maganitude_should_be_timeindependent(void) {
+  struct accelerometer acc_data[2] = {
+    {.t = 3, .x=6., .y=3., .z=2.},
+    {.t = 8, .x=6., .y=3., .z=2.}
+  };
+  double mag[2];
+  magnitude(acc_data, mag);
   CU_ASSERT_EQUAL( mag[0] , mag[1]);
 }
 
 
 void length_of_accelerometer_struct(void){
-  struct accelerometer acc_data[2] = {{36,9,4}, {9,36,4}};
+  struct accelerometer acc_data[2] = {
+    {.t = 10, .x=6., .y=3., .z=2.},
+    {.t = 10, .x=6., .y=3., .z=2.}
+  };
   size_t length = sizeof(acc_data)/sizeof(acc_data[0]);
   CU_ASSERT_EQUAL(length , 2);
 }
@@ -102,8 +129,10 @@ int main ( void )
 
    /* add the tests to the suite */
    if ( (NULL == CU_add_test(pSuite, "max_test_1", max_test_1)) ||
-        (NULL == CU_add_test(pSuite, "magnitude_of_36_9_4_should_be_7", magnitude_of_36_9_4_should_be_7)) ||
-        (NULL == CU_add_test(pSuite, "magnitude_is_commutative", magnitude_is_commutative)) ||
+        (NULL == CU_add_test(pSuite, "magnitude_of_x6_y3_z2_should_be_7", magnitude_of_x6_y3_z2_should_be_7)) ||
+        (NULL == CU_add_test(pSuite, "initialize_struct_accelerometer", initialize_struct_accelerometer)) ||
+        (NULL == CU_add_test(pSuite, "spatial_data_is_commutative_for_magnitude", spatial_data_is_commutative_for_magnitude)) ||
+        (NULL == CU_add_test(pSuite, "maganitude_should_be_timeindependent", maganitude_should_be_timeindependent)) ||
         (NULL == CU_add_test(pSuite, "length_of_accelerometer_struct", length_of_accelerometer_struct)) ||
         (NULL == CU_add_test(pSuite, "readcsv_line15_comparison", readcsv_line15_comparison))
       )
