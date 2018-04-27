@@ -1,11 +1,12 @@
 // acc.c 
 
-#include "acc.h"  
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+
+#include "acc.h"  
 
 #define MAXLENGTH 7024
 
