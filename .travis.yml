@@ -1,15 +1,16 @@
 language: c
 
-sudo: false
+os: osx
 
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install libcunit1 libcunit1-doc libcunit1-dev
+
 
 addons:
   apt:
     packages:
       - libcunit1
       - libcunit-dev
+
+before_install:
+  brew install cunit
 
 script: make && make runtests
