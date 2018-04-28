@@ -10,7 +10,7 @@
 
 #define MAXLENGTH 7024
 
-int readcsv(const char *filepath, struct accelerometer acc_data[])	
+int readCSV(const char *filepath, struct accelerometer *acc_data)	
 {
     FILE *fp = NULL;
     fp = fopen(filepath, "r");
@@ -60,14 +60,14 @@ int readcsv(const char *filepath, struct accelerometer acc_data[])
 	return 0;
 }
 
-void magnitude(struct accelerometer acc_data[], double magnitude_arr[])
+void calculateMagnitude(const struct accelerometer *acc_data, double *magnitude_arr, int number_of_entries)
 {
-	size_t length_acc_data =  sizeof(acc_data)/sizeof(acc_data[0]);
-	for ( size_t i=0; i < length_acc_data; i++ ){
+	for ( int i=0; i < number_of_entries; i++ ){
 		magnitude_arr[i] = sqrt(
 		pow(acc_data[i].x, 2) + pow(acc_data[i].y, 2) + pow(acc_data[i].z, 2)
 		);
-	}
+	}	
 }
+
 
 

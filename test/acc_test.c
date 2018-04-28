@@ -35,8 +35,8 @@ int clean_suite(void)
 void test_case_sample(void)
 {
    CU_ASSERT(CU_TRUE);
-   CU_ASSERT_NOT_EQUAL(2, -1);
    CU_ASSERT_STRING_EQUAL("string #1", "string #1");
+   CU_ASSERT_NOT_EQUAL(2, -1);
    CU_ASSERT_STRING_NOT_EQUAL("string #1", "string #2");
 
    CU_ASSERT(CU_FALSE);
@@ -51,11 +51,12 @@ void max_test_1(void) {
 }
 
 void magnitude_of_x6_y3_z2_should_be_7(void) {
+  int length = 1;
   struct accelerometer acc_data[1] = {
     {.t = 10, .x=6., .y=3., .z=2.}
   };
   double mag[1];
-  magnitude(acc_data ,mag);
+  magnitude(acc_data ,mag, length);
   CU_ASSERT_EQUAL( mag[0] , 7);
 }
 
@@ -75,7 +76,7 @@ void spatial_data_is_commutative_for_magnitude(void) {
     {.t = 10, .x=6., .y=3., .z=2.}
   };
   double mag[2];
-  magnitude(acc_data, mag);
+  magnitude(acc_data, mag, 2);
   CU_ASSERT_EQUAL( mag[0] , mag[1]);
 }
 
@@ -85,7 +86,7 @@ void maganitude_should_be_timeindependent(void) {
     {.t = 8, .x=6., .y=3., .z=2.}
   };
   double mag[2];
-  magnitude(acc_data, mag);
+  magnitude(acc_data, mag,2);
   CU_ASSERT_EQUAL( mag[0] , mag[1]);
 }
 
@@ -103,12 +104,12 @@ void length_of_accelerometer_struct(void){
 void readcsv_line15_comparison(void) {
   struct accelerometer acc_data[7024];
   char filepath[20];
-  strcpy(filepath, "AccData.csv");
+  strcpy(filepath, "src/AccData.csv");
   readcsv(filepath, acc_data);
-  CU_ASSERT_EQUAL( acc_data[15].t , 141);
-  CU_ASSERT_EQUAL( acc_data[15].x , 1031.25);
-  CU_ASSERT_EQUAL( acc_data[15].y , 31.25);
-  CU_ASSERT_EQUAL( acc_data[15].z , -62.5);
+  CU_ASSERT_EQUAL( acc_data[14].t , 141);
+  CU_ASSERT_EQUAL( acc_data[14].x , 1031.25);
+  CU_ASSERT_EQUAL( acc_data[14].y , 31.25);
+  CU_ASSERT_EQUAL( acc_data[14].z , -62.5);
 }
 
 /************* Test Runner Code goes here **************/
