@@ -1,9 +1,11 @@
 language: c
 
+sudo: false
+
 addons:
   apt:
     packages:
       -libcunit1
-      -libcunit
+      -libcunit_dev
 
 script: make && make runtests
