@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
 	char filepath[20];
 	strcpy(filepath, "src/AccData.csv");
 	int error = 0;
-	error = readcsv(filepath, acc_data); 
+	error = readCSV(filepath, acc_data); 
 	if (error == 1)
 		printf("error: %d\n", error);
 	printf("here is the first time: ");
@@ -29,28 +29,11 @@ int main(int argc, char* argv[])
 	printf("%d\n", instance[0].t);
 	
 	double magnitude_array[7024];
-	magnitude(acc_data, magnitude_array, 7024);
+	calculateMagnitude(acc_data, magnitude_array, 7024);
 	printf("length is %lu\n", sizeof(acc_data)/sizeof(acc_data[0]));
 	printf("magnitude is %g\n", magnitude_array[2]);
 	printf("%g\n", magnitude_array[0]);
 	printf("%g\n", magnitude_array[1]);
 
-
-
-	/*
-	printf("length is %lu\n", sizeof(instance)/sizeof(instance[0]));
-	double mag_instance[1];
-	magnitude(instance, mag_instance);
-	printf("This magnitude should be 7 %g\n", mag_instance[0]);
-	
-	double x = 3;
-	double y = 6;
-	double z = 2;
-	double magnitude_xyz;
-	magnitude_xyz = calculateMagnitude( x, y, z );
-	printf("x: %g\n", x);
-	printf("y: %g\n", y);
-	printf("magnitude_xyz: %g\n", magnitude_xyz);
-	*/
     return 0;
 }

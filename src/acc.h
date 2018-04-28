@@ -9,8 +9,8 @@ struct accelerometer // represents data of accelerometer
 	double x, y, z; // spatial coordiantes of accelerometer
 };
 
-int readcsv(const char *filepath, struct accelerometer *acc_data);
-void magnitude(const struct accelerometer *acc_data, double *magnitude_arr, int number_of_entries);
+int readCSV(const char *filepath, struct accelerometer *acc_data);
+void calculateMagnitude(const struct accelerometer *acc_data, double *magnitude_arr, int number_of_entries);
 //double calculateMagnitude(double x, double y, double z);
 
 #endif // ACC_H_

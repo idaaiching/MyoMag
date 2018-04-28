@@ -56,7 +56,7 @@ void magnitude_of_x6_y3_z2_should_be_7(void) {
     {.t = 10, .x=6., .y=3., .z=2.}
   };
   double mag[1];
-  magnitude(acc_data ,mag, length);
+  calculateMagnitude(acc_data ,mag, length);
   CU_ASSERT_EQUAL( mag[0] , 7);
 }
 
@@ -76,7 +76,7 @@ void spatial_data_is_commutative_for_magnitude(void) {
     {.t = 10, .x=6., .y=3., .z=2.}
   };
   double mag[2];
-  magnitude(acc_data, mag, 2);
+  calculateMagnitude(acc_data, mag, 2);
   CU_ASSERT_EQUAL( mag[0] , mag[1]);
 }
 
@@ -86,7 +86,7 @@ void maganitude_should_be_timeindependent(void) {
     {.t = 8, .x=6., .y=3., .z=2.}
   };
   double mag[2];
-  magnitude(acc_data, mag,2);
+  calculateMagnitude(acc_data, mag,2);
   CU_ASSERT_EQUAL( mag[0] , mag[1]);
 }
 
@@ -105,7 +105,7 @@ void readcsv_line15_comparison(void) {
   struct accelerometer acc_data[7024];
   char filepath[20];
   strcpy(filepath, "src/AccData.csv");
-  readcsv(filepath, acc_data);
+  readCSV(filepath, acc_data);
   CU_ASSERT_EQUAL( acc_data[14].t , 141);
   CU_ASSERT_EQUAL( acc_data[14].x , 1031.25);
   CU_ASSERT_EQUAL( acc_data[14].y , 31.25);
