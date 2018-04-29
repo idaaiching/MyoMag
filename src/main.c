@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
 	clock_t start_t, end_t;
 
 	int n = 7024; // number of lines in the csv file
-	struct accelerometer acc_data[7024];
+	DATA acc_data[7024];
 	double magnitude_array[7024] = {0};
 	char filepath[20];
 	strcpy(filepath, "src/AccData.csv");

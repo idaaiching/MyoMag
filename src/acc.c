@@ -11,7 +11,7 @@
 #define MAXLINE 100 // storage for one line
 #define MAXLENGTH 100 // numer of csv-lines stored in one dump 
 
-int readCSV(const char *filepath, struct accelerometer *acc_data)	
+int readCSV(const char *filepath, DATA *acc_data)	
 {
     FILE *fp = NULL;
     fp = fopen(filepath, "r");
@@ -20,7 +20,7 @@ int readCSV(const char *filepath, struct accelerometer *acc_data)
     	return 1;
     }
 	char line[MAXLINE];
-	struct accelerometer instance;
+	DATA instance;
 	int narr = 4;
 	char *arr[narr];
 	int na;
@@ -80,7 +80,7 @@ int getLine(char *line, char *entry_arr[], int nentries)
 	return na;
 }
 
-void calculateMagnitude(const struct accelerometer *acc_data, double *magnitude_arr, int number_of_entries)
+void calculateMagnitude(const DATA *acc_data, double *magnitude_arr, int number_of_entries)
 {
 	for ( int i=0; i < number_of_entries; i++ ){
 		magnitude_arr[i] = sqrt(
