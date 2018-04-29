@@ -48,7 +48,6 @@ void test_case_sample(void)
 
 
 void magnitude_of_6_3_2_is_7(void) {
-  int length = 1;
   DATA data_arr[1] = {
     {.t = 10, .x=6., .y=3., .z=2.}
   };
@@ -122,7 +121,7 @@ void read_csv_twice_should_give_same_result(void) {
 
 void read_scv_in_two_steps_should_be_the_same_as_in_one_step(vois) {
   DATA a[7024];
-  DATA b[7024];
+  DATA b[3024];
   double mag_a[7024];
   double mag_b[7024];
   char filepath[20];
@@ -136,10 +135,13 @@ void read_scv_in_two_steps_should_be_the_same_as_in_one_step(vois) {
   readCSV(filepath, b, 3000, 7024);
   calculateMagnitude(b, mag_b, 3000, 7024);
 
-  CU_ASSERT_EQUAL( a[14].t , b[14].t);
-  CU_ASSERT_EQUAL( a[14].x , b[14].x);
-  CU_ASSERT_EQUAL( a[14].y , b[14].y);
-  CU_ASSERT_EQUAL( a[14].z , b[14].z);
+  CU_ASSERT_EQUAL( mag_a[1], mag_a[1]);
+  CU_ASSERT_EQUAL( mag_a[500], mag_a[500]);
+  CU_ASSERT_EQUAL( mag_a[3000], mag_a[3000]);
+  CU_ASSERT_EQUAL( mag_a[3001], mag_a[3001]);
+  CU_ASSERT_EQUAL( mag_a[3500], mag_a[3500]);
+  CU_ASSERT_EQUAL( mag_a[4000], mag_a[4000]);
+  CU_ASSERT_EQUAL( mag_a[6000], mag_a[6000]);
 }
 
 /************* Test Runner Code goes here **************/

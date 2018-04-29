@@ -37,13 +37,12 @@ int readCSV( const char *filepath, DATA *data_arr, int idx_start, int idx_end )
 			printf("Error: Line %d\n has only %d\n entries for t, x, y, z.  Expected %d\n!", 
 				idx, na, n_col_csv);
 			break;			
-		}
-		
+		}		
 		instance.t = atoi( line_arr[0] );
 		instance.x = atof( line_arr[1] );
 		instance.y = atof( line_arr[2] );
 		instance.z = atof( line_arr[3] );
-		data_arr[idx] = instance;
+		data_arr[idx - idx_start] = instance;
 		//printf("Line %d has been read in! %d %g %g %g \n", idx, instance.t, instance.x, instance.y, instance.z);
 		idx++;
 	};
@@ -83,10 +82,12 @@ int getLine( char *line, char *line_arr[], int n_col_csv)
 
 void calculateMagnitude(const DATA *data_arr, double *magnitude_arr, int idx_start, int idx_end )
 {
-	for ( int i=idx_start; i < idx_end; i++ ){
-		magnitude_arr[i] = sqrt(
-		pow(data_arr[i].x, 2) + 
-		pow(data_arr[i].y, 2) + 
-		pow(data_arr[i].z, 2));
+	for ( int i = 0; i < (idx_end - idx_start); i++ ){
+		magnitude_arr[idx_start + i] = sqrt(
+			pow(data_arr[i].x, 2) + 
+			pow(data_arr[i].y, 2) + 
+			pow(data_arr[i].z, 2));
+		//printf("calculated magnitude: %f\n", )
+
 	}	
 }
