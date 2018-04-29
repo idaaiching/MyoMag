@@ -9,7 +9,6 @@
 #include "acc.h"  
 
 #define MAXLINE 100 // storage for one line
-#define MAXLENGTH 100 // numer of csv-lines stored in one dump 
 
 // returns number of lines read in.
 int readCSV( const char *filepath, DATA *data_arr, int idx_start, int idx_end )	
@@ -26,7 +25,7 @@ int readCSV( const char *filepath, DATA *data_arr, int idx_start, int idx_end )
 	char *line_arr[n_col_csv];
 	int na;
 	int idx = 0;
-	while( fgets(line, sizeof(line), fp) != NULL && idx < idx_end){
+	while( fgets(line, sizeof(line), fp) != NULL && idx <= idx_end){
 		if( idx < idx_start) 
 		{
 			idx++;
@@ -43,7 +42,6 @@ int readCSV( const char *filepath, DATA *data_arr, int idx_start, int idx_end )
 		instance.y = atof( line_arr[2] );
 		instance.z = atof( line_arr[3] );
 		data_arr[idx - idx_start] = instance;
-		//printf("Line %d has been read in! %d %g %g %g \n", idx, instance.t, instance.x, instance.y, instance.z);
 		idx++;
 	};
 	fclose(fp);
@@ -82,12 +80,36 @@ int getLine( char *line, char *line_arr[], int n_col_csv)
 
 void calculateMagnitude(const DATA *data_arr, double *magnitude_arr, int idx_start, int idx_end )
 {
-	for ( int i = 0; i < (idx_end - idx_start); i++ ){
+	for ( int i = 0; i <= (idx_end - idx_start); i++ ){
 		magnitude_arr[idx_start + i] = sqrt(
 			pow(data_arr[i].x, 2) + 
 			pow(data_arr[i].y, 2) + 
 			pow(data_arr[i].z, 2));
-		//printf("calculated magnitude: %f\n", )
-
+		//printf("magnitude idx: %i %i\n", (idx_start + i), i);
 	}	
+	printf("magnitude value: %g %g\n", (magnitude_arr[idx_end]), magnitude_arr[idx_end-1]);
 }
+
+void myomag(const char *filepath, double *magnitude_arr, int nlines, int nsplits)
+{
+	int steps;
+	steps = nlines/nsplits; // warning: integer division!
+	DATA data_arr[steps+1];
+	int idx_start = 0;
+	int idx_end = steps;
+	// read and process data in packages of size <steps>
+	for(idx_start = 0; idx_end  < nlines; idx_start += steps, idx_end += steps){
+		//printf("start and end: %i, %i\n", idx_start, idx_end);
+		readCSV(filepath, data_arr, idx_start, idx_end); 
+		calculateMagnitude(data_arr, magnitude_arr, idx_start, idx_end);
+		if(idx_start == 0) idx_start++;
+	}
+	// remaining steps
+	if((nlines - idx_start ) > 0){
+		printf("remaining: start and end: %i, %i\n", idx_start, nlines-1);
+		readCSV(filepath, data_arr, idx_start, nlines-1); 
+		calculateMagnitude(data_arr, magnitude_arr, idx_start, nlines-1);	
+	}
+}
+
+

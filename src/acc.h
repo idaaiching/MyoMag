@@ -10,9 +10,7 @@ typedef struct DATA // represents data of accelerometer
 } DATA;
 
 int readCSV( const char *filepath, DATA *data_arr, int idx_start, int idx_end );
-int getLine(char *line, char *line_arr[], int n_col_csv);
-
-void calculateMagnitude(const DATA *data_arr, double *magnitude_arr, int idx_start, int idx_end );
-//double calculateMagnitude(double x, double y, double z);
-
+int getLine( char *line, char *line_arr[], int n_col_csv );
+void calculateMagnitude( const DATA *data_arr, double *magnitude_arr, int idx_start, int idx_end );
+void myomag( const char *filepath, double *magnitude_arr, int nlines, int nsplits );
 #endif // ACC_H_

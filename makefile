@@ -1,4 +1,4 @@
-# makefile for “MyoAcc-project"
+# makefile for “MyoMag-project"
 
 CC=gcc -Wall
 RM=rm -f
@@ -19,28 +19,28 @@ TESTS=acc_test.o
 %.o :	$(TESTDIR)/%.c
 	$(CC) -c $< -o $@ $(INC)
 
-MyoAcc:	$(OBJS) main.o
+myomag:	$(OBJS) main.o
 	$(CC) -o $@ $^ $(INC)
 
-MyoAcc_test:	$(TESTS) $(OBJS) 
+myomag_test:	$(TESTS) $(OBJS) 
 	$(CC) -L/usr/local/lib -o $@ $^ $(INC) $(LDFLAGS)
 
 report :
-	xsltproc -novalid cunit-to-junit.xsl CUnitAutomated-Results.xml > MyoAcc_TestResults.xml
+	xsltproc -novalid cunit-to-junit.xsl CUnitAutomated-Results.xml > myomag_TestResults.xml
 
 .PHONY : runtests
-runtests : MyoAcc_test
+runtests : myomag_test
 		./$<
 
 .PHONY : all
-all : MyoAcc MyoAcc_test
+all : myomag myomag_test
 
 .PHONY : clean
 clean :
-	(RM) MyoAcc
+	(RM) myomag
 	(RM) tests
 	(RM) CUnit*.xml
-	(RM) MyoAcc_TestResults.xml.xml
+	(RM) myomag_TestResults.xml.xml
 	(RM) *.o
 	(RM) *~
 	(RM) src/*~

@@ -119,7 +119,7 @@ void read_csv_twice_should_give_same_result(void) {
   CU_ASSERT_EQUAL( data_arr[14].z , -62.5);
 }
 
-void read_scv_in_two_steps_should_be_the_same_as_in_one_step(vois) {
+void magnitude_calculated_in_two_steps_should_be_the_same_as_in_one_step(void) {
   DATA a[7024];
   DATA b[3024];
   double mag_a[7024];
@@ -135,13 +135,42 @@ void read_scv_in_two_steps_should_be_the_same_as_in_one_step(vois) {
   readCSV(filepath, b, 3000, 7024);
   calculateMagnitude(b, mag_b, 3000, 7024);
 
-  CU_ASSERT_EQUAL( mag_a[1], mag_a[1]);
-  CU_ASSERT_EQUAL( mag_a[500], mag_a[500]);
-  CU_ASSERT_EQUAL( mag_a[3000], mag_a[3000]);
-  CU_ASSERT_EQUAL( mag_a[3001], mag_a[3001]);
-  CU_ASSERT_EQUAL( mag_a[3500], mag_a[3500]);
-  CU_ASSERT_EQUAL( mag_a[4000], mag_a[4000]);
-  CU_ASSERT_EQUAL( mag_a[6000], mag_a[6000]);
+  CU_ASSERT_DOUBLE_EQUAL( mag_a[1], 1003.9, 0.1);
+  CU_ASSERT_EQUAL( mag_a[1], mag_b[1]);
+  CU_ASSERT_EQUAL( mag_a[500], mag_b[500]);
+  CU_ASSERT_EQUAL( mag_a[3000], mag_b[3000]);
+  CU_ASSERT_EQUAL( mag_a[3001], mag_b[3001]);
+  CU_ASSERT_EQUAL( mag_a[3500], mag_b[3500]);
+  CU_ASSERT_EQUAL( mag_a[4000], mag_b[4000]);
+  CU_ASSERT_EQUAL( mag_a[6000], mag_b[6000]);
+}
+
+void myomag_tested_with_differnt_nsplits(void) {
+  double a[7024];
+  double b[7024];
+  double c[7024];
+  char filepath[20];
+  strcpy(filepath, "src/AccData.csv");
+
+  myomag(filepath, a, 7024, 1);
+  myomag(filepath, b, 7024, 5);
+  myomag(filepath, c, 7024, 50);
+
+  CU_ASSERT_DOUBLE_EQUAL( a[1], 1003.9, 0.1);
+  CU_ASSERT_DOUBLE_EQUAL( a[1], b[1], 0.1);
+  CU_ASSERT_DOUBLE_EQUAL( a[1], c[1], 0.1);
+
+  CU_ASSERT_DOUBLE_EQUAL( a[300], 1032.2, 0.1);
+  CU_ASSERT_DOUBLE_EQUAL( a[300], b[300], 0.1);
+  CU_ASSERT_DOUBLE_EQUAL( b[300], c[300], 0.1);
+
+  CU_ASSERT_DOUBLE_EQUAL( a[6000], 897.588, 0.1);
+  CU_ASSERT_DOUBLE_EQUAL( a[6000], b[6000], 0.1);
+  CU_ASSERT_DOUBLE_EQUAL( b[6000], c[6000], 0.1);
+
+  CU_ASSERT_DOUBLE_EQUAL( a[7023], 1033.61, 0.1);
+  CU_ASSERT_DOUBLE_EQUAL( a[7023], b[7023], 0.1);
+  CU_ASSERT_DOUBLE_EQUAL( b[7023], c[7023], 0.1);
 }
 
 /************* Test Runner Code goes here **************/
@@ -168,7 +197,8 @@ int main ( void )
         (NULL == CU_add_test(pSuite, "length_of_accelerometer_struct", length_of_accelerometer_struct)) ||
         (NULL == CU_add_test(pSuite, "readCSV_line15", readCSV_line15)) ||
         (NULL == CU_add_test(pSuite, "read_csv_twice_should_give_same_result", read_csv_twice_should_give_same_result)) ||
-        (NULL == CU_add_test(pSuite, "read_scv_in_two_steps_should_be_the_same_as_in_one_step", read_scv_in_two_steps_should_be_the_same_as_in_one_step)) 
+        (NULL == CU_add_test(pSuite, "magnitude_calculated_in_two_steps_should_be_the_same_as_in_one_step", magnitude_calculated_in_two_steps_should_be_the_same_as_in_one_step)) ||
+        (NULL == CU_add_test(pSuite, "myomag_tested_with_differnt_nsplits", myomag_tested_with_differnt_nsplits))  
       )
    {
       CU_cleanup_registry();
