@@ -12,7 +12,7 @@
 #define MAXLENGTH 100 // numer of csv-lines stored in one dump 
 
 // returns number of lines read in.
-int readCSV( const char *filepath, DATA *data_arr, int idx_checkpoint )	
+int readCSV( const char *filepath, DATA *data_arr, int idx_start, int idx_end )	
 {
     FILE *fp = NULL;
     fp = fopen(filepath, "r");
@@ -26,13 +26,12 @@ int readCSV( const char *filepath, DATA *data_arr, int idx_checkpoint )
 	char *line_arr[n_col_csv];
 	int na;
 	int idx = 0;
-	while( fgets(line, sizeof(line), fp) != NULL ){
-		if( idx < idx_checkpoint) 
+	while( fgets(line, sizeof(line), fp) != NULL && idx < idx_end){
+		if( idx < idx_start) 
 		{
 			idx++;
 			continue;			
 		}
-
 		na = getLine(line, line_arr, n_col_csv);
 		if (na > n_col_csv){
 			printf("Error: Line %d\n has only %d\n entries for t, x, y, z.  Expected %d\n!", 
@@ -82,9 +81,9 @@ int getLine( char *line, char *line_arr[], int n_col_csv)
 	return na;
 }
 
-void calculateMagnitude(const DATA *data_arr, double *magnitude_arr, int n_lines_csv, int idx_checkpoint )
+void calculateMagnitude(const DATA *data_arr, double *magnitude_arr, int idx_start, int idx_end )
 {
-	for ( int i=idx_checkpoint; i < n_lines_csv; i++ ){
+	for ( int i=idx_start; i < idx_end; i++ ){
 		magnitude_arr[i] = sqrt(
 		pow(data_arr[i].x, 2) + 
 		pow(data_arr[i].y, 2) + 

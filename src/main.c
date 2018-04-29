@@ -21,24 +21,28 @@ int main(int argc, char* argv[])
 	char filepath[20];
 	strcpy(filepath, "src/AccData.csv");
 	int nlines = 0;
-	int n_repetition = 10;
-	int checkpoint = 6990;
+	int n_repetition = 100; // multiple execution of program to measure time 
+	int idx_start = 0;
+	int idx_end = 7024;
+	int plotted_lines[3] = {7000, 7001, 7002};
 
-	
+
 	start_t = clock();
 	for(int i = 0; i < n_repetition; i++)
 	{
-		nlines = readCSV(filepath, data_arr, checkpoint); 
-		calculateMagnitude(data_arr, magnitude_array, 7024, checkpoint);
+
+		idx_end = readCSV(filepath, data_arr, idx_start, idx_end); 
+		calculateMagnitude(data_arr, magnitude_array, idx_start, idx_end);
 	}
 	end_t = clock();
-	
+
 	printf("The magnitude has been calculated an saved in magnetude_array.\n"
-		"The first three lines are plotted here "
+		"The lines %d, %d, %d are plotted here "
 		"in the format (time, magnitude): \n"
 		"%d: %g\n"
 		"%d: %g\n"
 		"%d: %g\n",
+		plotted_lines[0], plotted_lines[1], plotted_lines[2],
 		data_arr[7000].t, magnitude_array[7000],
 		data_arr[7001].t, magnitude_array[7001],
 		data_arr[7002].t, magnitude_array[7002]
