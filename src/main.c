@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
 		acc_data[2].t, magnitude_array[2]
 		);
 
-	printf("Total time taken by CPU for %d repetition: %.2f seconds\n", 
+	printf("Total time taken by CPU for %d repetitions: %.2f seconds\n", 
 		n_repetition,
 		(double)(end_t - start_t) / CLOCKS_PER_SEC );
 

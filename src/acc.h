@@ -11,6 +11,7 @@ struct accelerometer // represents data of accelerometer
 
 int readCSV(const char *filepath, struct accelerometer *acc_data);
 void calculateMagnitude(const struct accelerometer *acc_data, double *magnitude_arr, int number_of_entries);
+int getLine(char *line, char *entry_arr[], int nentries);
 //double calculateMagnitude(double x, double y, double z);
 
 #endif // ACC_H_
