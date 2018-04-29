@@ -29,11 +29,10 @@ int main(int argc, char* argv[])
 	int n_repetition = 100; // multiple execution of program to measure time 
 	int idx_start = 0;
 	int idx_end = 7024;
-	int i1 = 0, i2 = 1, i3 = 2;
+	int i1 = 0, i2 = 700, i3 = 7023;
 
 	start_t = clock();
-	for(int i = 0; i < n_repetition; i++)
-	{
+	for(int i = 0; i < n_repetition; i++){
 		idx_end = readCSV(filepath, data_1, idx_start, idx_end); 
 		calculateMagnitude(data_1, magnitude_1, idx_start, idx_end);
 	}
@@ -57,12 +56,14 @@ int main(int argc, char* argv[])
 
 
 	start_t = clock();
-	for(int i = 0; i < n_repetition; i++)
-	{
-		
+	for(int i = 0; i < n_repetition; i++){
 		for(idx_start = 0; (idx_start+500)  < length; idx_start+=500){
 			idx_end = readCSV(filepath, data_2_short, idx_start, idx_start + 500); 
 			calculateMagnitude(data_2_short, magnitude_2, idx_start, idx_start + 500);
+		}
+		if((length - idx_end ) > 0){
+			readCSV(filepath, data_2_short, idx_end, length); 
+			calculateMagnitude(data_2_short, magnitude_2, idx_end, length);	
 		}
 	}
 	end_t = clock();
