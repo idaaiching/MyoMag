@@ -11,7 +11,8 @@
 #define MAXLINE 100 // storage for one line
 #define MAXLENGTH 100 // numer of csv-lines stored in one dump 
 
-int readCSV(const char *filepath, DATA *acc_data)	
+// returns number of lines read in.
+int readCSV( const char *filepath, DATA *data_arr, int idx_checkpoint )	
 {
     FILE *fp = NULL;
     fp = fopen(filepath, "r");
@@ -21,73 +22,72 @@ int readCSV(const char *filepath, DATA *acc_data)
     }
 	char line[MAXLINE];
 	DATA instance;
-	int narr = 4;
-	char *arr[narr];
+	int n_col_csv = 4; 
+	char *line_arr[n_col_csv];
 	int na;
-	int line_idx = 0;
 	int idx = 0;
-	while(fgets(line, sizeof(line), fp) != NULL)
-	{
-		na = getLine(line, arr, narr);
-		if (na > narr)
+	while( fgets(line, sizeof(line), fp) != NULL ){
+		if( idx < idx_checkpoint) 
 		{
-			printf("Error: Line %d\n has only %d\n entries for t, x, y, z.  Expected %d\n!", 
-				line_idx, na, narr);
-			break;			
+			idx++;
+			continue;			
 		}
 
-		instance.t = atoi(arr[0]);
-		instance.x = atof(arr[1]);
-		instance.y = atof(arr[2]);
-		instance.z = atof(arr[3]);
-		acc_data[idx] = instance;
+		na = getLine(line, line_arr, n_col_csv);
+		if (na > n_col_csv){
+			printf("Error: Line %d\n has only %d\n entries for t, x, y, z.  Expected %d\n!", 
+				idx, na, n_col_csv);
+			break;			
+		}
+		
+		instance.t = atoi( line_arr[0] );
+		instance.x = atof( line_arr[1] );
+		instance.y = atof( line_arr[2] );
+		instance.z = atof( line_arr[3] );
+		data_arr[idx] = instance;
+		//printf("Line %d has been read in! %d %g %g %g \n", idx, instance.t, instance.x, instance.y, instance.z);
 		idx++;
-		line_idx++;
 	};
 	fclose(fp);
 
-	return 0;
+	return idx;
 }
 
-// loops through one line and saves each column entry in the entry_array
-// for MyoMag: entry_arr = [t, x, y, z] of one line
-int getLine(char *line, char *entry_arr[], int nentries)
+// loops through one line and saves each column entry in the line_arr
+// for MyoMag: line_arr = [t, x, y, z] of one line
+int getLine( char *line, char *line_arr[], int n_col_csv)
 {
 	char *p;
 	size_t na = 0; /* idx of col in csv file */
 	char prevc = ',';   /* force recognizing first field */
 	char *dp = NULL;
 
-	for(p = line; *p != '\0'; prevc = *p, p++)
-	{
-		if(prevc == ',')
-		{
+	for ( p = line; *p != '\0'; prevc = *p, p++){
+		if ( prevc == ',' ){
 			/* start new field */
-			if(dp != NULL)
+			if ( dp != NULL)
 				*dp = '\0';  /*terminate prev*/
-			if(na >= nentries)
+			if ( na >= n_col_csv)
 				return na;
-			entry_arr[na++] = p;
+			line_arr[na++] = p;
 			dp = p;
 		}
-		if(*p != ',')
+		if ( *p != ',' )
 			*dp++ = *p;
 	}
-	if(dp != NULL)
+	if ( dp != NULL )
 		*dp = '\0';
-	if(na < nentries)
-		entry_arr[na] = NULL;
+	if ( na < n_col_csv)
+		line_arr[na] = NULL;
 	return na;
 }
 
-void calculateMagnitude(const DATA *acc_data, double *magnitude_arr, int number_of_entries)
+void calculateMagnitude(const DATA *data_arr, double *magnitude_arr, int n_lines_csv, int idx_checkpoint )
 {
-	for ( int i=0; i < number_of_entries; i++ ){
+	for ( int i=idx_checkpoint; i < n_lines_csv; i++ ){
 		magnitude_arr[i] = sqrt(
-		pow(acc_data[i].x, 2) + pow(acc_data[i].y, 2) + pow(acc_data[i].z, 2)
-		);
+		pow(data_arr[i].x, 2) + 
+		pow(data_arr[i].y, 2) + 
+		pow(data_arr[i].z, 2));
 	}	
 }
-
-
-

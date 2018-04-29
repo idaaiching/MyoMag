@@ -45,23 +45,20 @@ void test_case_sample(void)
    CU_ASSERT_STRING_EQUAL("string #1", "string #2");
 }
 
-void max_test_1(void) {
-  CU_ASSERT_EQUAL( 2, 2);
-  CU_ASSERT_EQUAL( 2, 2);
-}
 
-void magnitude_of_x6_y3_z2_should_be_7(void) {
+
+void magnitude_of_6_3_2_is_7(void) {
   int length = 1;
-  struct accelerometer acc_data[1] = {
+  DATA acc_data[1] = {
     {.t = 10, .x=6., .y=3., .z=2.}
   };
   double mag[1];
-  calculateMagnitude(acc_data ,mag, length);
+  calculateMagnitude(acc_data ,mag, length, 0);
   CU_ASSERT_EQUAL( mag[0] , 7);
 }
 
 void initialize_struct_accelerometer(void) {
-  struct accelerometer acc_data[1] = {
+  DATA acc_data[1] = {
     {.t = 10, .x=6., .y=3., .z=2.}
   };  
   CU_ASSERT_EQUAL( acc_data[0].t , 10);
@@ -71,28 +68,28 @@ void initialize_struct_accelerometer(void) {
 }
 
 void spatial_data_is_commutative_for_magnitude(void) {
-  struct accelerometer acc_data[2] = {
+  DATA acc_data[2] = {
     {.t = 10, .x=3., .y=6., .z=2.},
     {.t = 10, .x=6., .y=3., .z=2.}
   };
   double mag[2];
-  calculateMagnitude(acc_data, mag, 2);
+  calculateMagnitude(acc_data, mag, 2, 0);
   CU_ASSERT_EQUAL( mag[0] , mag[1]);
 }
 
 void maganitude_should_be_timeindependent(void) {
-  struct accelerometer acc_data[2] = {
+  DATA acc_data[2] = {
     {.t = 3, .x=6., .y=3., .z=2.},
     {.t = 8, .x=6., .y=3., .z=2.}
   };
   double mag[2];
-  calculateMagnitude(acc_data, mag,2);
+  calculateMagnitude(acc_data, mag, 2, 0);
   CU_ASSERT_EQUAL( mag[0] , mag[1]);
 }
 
 
 void length_of_accelerometer_struct(void){
-  struct accelerometer acc_data[2] = {
+  DATA acc_data[2] = {
     {.t = 10, .x=6., .y=3., .z=2.},
     {.t = 10, .x=6., .y=3., .z=2.}
   };
@@ -101,11 +98,11 @@ void length_of_accelerometer_struct(void){
 }
 
 
-void readcsv_line15_comparison(void) {
-  struct accelerometer acc_data[7024];
+void readCSV_line15(void) {
+  DATA acc_data[7024];
   char filepath[20];
   strcpy(filepath, "src/AccData.csv");
-  readCSV(filepath, acc_data);
+  readCSV(filepath, acc_data, 0);
   CU_ASSERT_EQUAL( acc_data[14].t , 141);
   CU_ASSERT_EQUAL( acc_data[14].x , 1031.25);
   CU_ASSERT_EQUAL( acc_data[14].y , 31.25);
@@ -129,13 +126,12 @@ int main ( void )
    }
 
    /* add the tests to the suite */
-   if ( (NULL == CU_add_test(pSuite, "max_test_1", max_test_1)) ||
-        (NULL == CU_add_test(pSuite, "magnitude_of_x6_y3_z2_should_be_7", magnitude_of_x6_y3_z2_should_be_7)) ||
+   if ( (NULL == CU_add_test(pSuite, "magnitude_of_6_3_2_is_7", magnitude_of_6_3_2_is_7)) ||
         (NULL == CU_add_test(pSuite, "initialize_struct_accelerometer", initialize_struct_accelerometer)) ||
         (NULL == CU_add_test(pSuite, "spatial_data_is_commutative_for_magnitude", spatial_data_is_commutative_for_magnitude)) ||
         (NULL == CU_add_test(pSuite, "maganitude_should_be_timeindependent", maganitude_should_be_timeindependent)) ||
         (NULL == CU_add_test(pSuite, "length_of_accelerometer_struct", length_of_accelerometer_struct)) ||
-        (NULL == CU_add_test(pSuite, "readcsv_line15_comparison", readcsv_line15_comparison))
+        (NULL == CU_add_test(pSuite, "readCSV_line15", readCSV_line15))
       )
    {
       CU_cleanup_registry();
