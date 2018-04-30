@@ -1,10 +1,12 @@
 // acc.c 
 
+
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+
 
 #include "acc.h"  
 
@@ -54,7 +56,7 @@ int readCSV( const char *filepath, DATA *data_arr, int idx_start, int idx_end )
 int getLine( char *line, char *line_arr[], int n_col_csv)
 {
 	char *p;
-	size_t na = 0; /* idx of col in csv file */
+	int na = 0; /* idx of col in csv file */
 	char prevc = ',';   /* force recognizing first field */
 	char *dp = NULL;
 
@@ -85,9 +87,7 @@ void calculateMagnitude(const DATA *data_arr, double *magnitude_arr, int idx_sta
 			pow(data_arr[i].x, 2) + 
 			pow(data_arr[i].y, 2) + 
 			pow(data_arr[i].z, 2));
-		//printf("magnitude idx: %i %i\n", (idx_start + i), i);
 	}	
-	printf("magnitude value: %g %g\n", (magnitude_arr[idx_end]), magnitude_arr[idx_end-1]);
 }
 
 void myomag(const char *filepath, double *magnitude_arr, int nlines, int nsplits)
@@ -99,17 +99,62 @@ void myomag(const char *filepath, double *magnitude_arr, int nlines, int nsplits
 	int idx_end = steps;
 	// read and process data in packages of size <steps>
 	for(idx_start = 0; idx_end  < nlines; idx_start += steps, idx_end += steps){
-		//printf("start and end: %i, %i\n", idx_start, idx_end);
 		readCSV(filepath, data_arr, idx_start, idx_end); 
 		calculateMagnitude(data_arr, magnitude_arr, idx_start, idx_end);
 		if(idx_start == 0) idx_start++;
 	}
 	// remaining steps
 	if((nlines - idx_start ) > 0){
-		printf("remaining: start and end: %i, %i\n", idx_start, nlines-1);
 		readCSV(filepath, data_arr, idx_start, nlines-1); 
 		calculateMagnitude(data_arr, magnitude_arr, idx_start, nlines-1);	
 	}
 }
+
+//**************************************************
+// Extension module for Python
+// make myomag function compatible to be called in Python
+/*
+#include <Python.h>
+static PyObject*
+PyMyomag(PyObject* self, PyObject* args, PyObject* kwds)
+{
+  //static char* argnames[] = {"filepath","nlines","nsplits", NULL};
+  const char *filepath;
+  int nlines;
+  int nsplits;
+  
+  if(!PyArg_ParseTuple(args,"sii", &filepath, &nlines, &nsplits ))
+    return NULL;
+
+  // calculation of magnitude
+  double magnitude[nlines]; //= {0};
+  myomag(filepath, magnitude, nlines, nsplits);
+
+  // conversion from C-object(magnitude) to a Python object (result)
+  Py_ssize_t len = nlines;
+  PyObject *result = PyTuple_New(len);
+  for (Py_ssize_t i = 0; i < len; i++) {
+    PyTuple_SET_ITEM(result, i, PyFloat_FromDouble(magnitude[i]));
+  }
+  
+  return Py_BuildValue("O", result);
+}
+
+static char PyMyomag_docs[] =
+  "Extension module PyMyomag to calculate the magnitude of an accelerometer signal.\n";
+
+
+static PyMethodDef PyMyomag_funcs[] = {
+  {"PyMyomag", (PyCFunction)PyMyomag, METH_VARARGS, PyMyomag_docs},
+  {NULL}
+};
+
+void initPyMyomag(void)
+{
+  Py_InitModule3("PyMyomag", PyMyomag_funcs,
+		 "Extension module PyMyomag to calculate the magnitude of an accelerometer signal.");
+}
+*/
+
 
 

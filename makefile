@@ -7,7 +7,8 @@ LDFLAGS= -lcunit
 
 SRCDIR= src
 TESTDIR= test
-INC=-I$(SRCDIR) -I$(TESTDIR) #-I$(HOME)/include
+PYTHONDIR= -L/usr/include/python2.7
+INC=-I$(SRCDIR) -I$(TESTDIR) -I$(PYTHONDIR)
 
 OBJS= acc.o #readcsv.o
 TESTS=acc_test.o

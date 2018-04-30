@@ -20,13 +20,12 @@ int main(int argc, char* argv[])
 	int n_repetition = 1; // multiple executions of program to measure time 
 	int i1 = 1, i2 = 6000, i3 = 7023; // line index for plotting
 
-	// ********* Start program
+	printf("\n********* Start Myomag *********\n\n");
 	start_t = clock();
 	for(int i = 0; i < n_repetition; i++){
 		myomag(filepath, magnitude_arr, nlines, 3);
 	}
 	end_t = clock();
-	// ********* End program
 
 	// ********* Printing results
 	printf("The magnitude has been calculated an saved in magnetude_array.\n"
@@ -37,7 +36,7 @@ int main(int argc, char* argv[])
 		magnitude_arr[i2],
 		magnitude_arr[i3]
 		);
-	printf("Total time taken by CPU for %d repetitions (memory optimisation): %.2f seconds\n", 
+	printf("Total time taken by CPU for %d repetitions: %.2f seconds\n", 
 		n_repetition,
 		(double)(end_t - start_t) / CLOCKS_PER_SEC );
 
