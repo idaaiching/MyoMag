@@ -15,47 +15,47 @@
 // returns number of lines read in.
 int readCSV( const char *filepath, Signal *signal_arr, int idx_start, int idx_end )	
 {
-    FILE *fp = NULL;
-    fp = fopen(filepath, "r");
-    if(fp == NULL){
+    FILE *filePointer = NULL;
+    filePointer = fopen(filepath, "r");
+    if(filePointer == NULL){
     	printf("Error: Failed to open csv file!");
-    	return 1;
+    	return 0;
     }
 	char line[MAXLINE];
 	Signal instance;
-	int n_col_csv = 4; 
-	char *line_arr[n_col_csv];
-	int na;
-	int idx = 0;
-	while( fgets(line, sizeof(line), fp) != NULL && idx <= idx_end){
-		if( idx < idx_start) 
+	int nColumns = 4; 
+	char *line_arr[nColumns];
+	int nElementsInLine;
+	int lineIndex = 0;
+	while( fgets(line, sizeof(line), filePointer) != NULL && lineIndex <= idx_end){
+		if( lineIndex < idx_start) 
 		{
-			idx++;
+			lineIndex++;
 			continue;			
 		}
-		na = getLine(line, line_arr, n_col_csv);
-		if (na > n_col_csv){
+		nElementsInLine = splitCSVLine(line, line_arr, nColumns);
+		if (nElementsInLine > nColumns){
 			printf("Error: Line %d\n has only %d\n entries for t, x, y, z.  Expected %d\n!", 
-				idx, na, n_col_csv);
+				lineIndex, nElementsInLine, nColumns);
 			break;			
 		}		
 		instance.t = atoi( line_arr[0] );
 		instance.x = atof( line_arr[1] );
 		instance.y = atof( line_arr[2] );
 		instance.z = atof( line_arr[3] );
-		signal_arr[idx - idx_start] = instance;
-		idx++;
+		signal_arr[lineIndex - idx_start] = instance;
+		lineIndex++;
 	};
-	fclose(fp);
-	return idx;
+	fclose(filePointer);
+	return lineIndex;
 }
 
 // loops through one line and saves each column entry in the line_arr
 // for MyoMag: line_arr = [t, x, y, z] of one line
-int getLine( char *line, char *line_arr[], int n_col_csv)
+int splitCSVLine( char *line, char *line_arr[], int nColumns)
 {
 	char *p;
-	int na = 0; /* idx of col in csv file */
+	int nElementsInLine = 0;
 	char prevc = ',';   /* force recognizing first field */
 	char *dp = NULL;
 
@@ -64,9 +64,9 @@ int getLine( char *line, char *line_arr[], int n_col_csv)
 			/* start new field */
 			if ( dp != NULL)
 				*dp = '\0';  /*terminate prev*/
-			if ( na >= n_col_csv)
-				return na;
-			line_arr[na++] = p;
+			if ( nElementsInLine >= nColumns)
+				return nElementsInLine;
+			line_arr[nElementsInLine++] = p;
 			dp = p;
 		}
 		if ( *p != ',' )
@@ -74,9 +74,9 @@ int getLine( char *line, char *line_arr[], int n_col_csv)
 	}
 	if ( dp != NULL )
 		*dp = '\0';
-	if ( na < n_col_csv)
-		line_arr[na] = NULL;
-	return na;
+	if ( nElementsInLine < nColumns)
+		line_arr[nElementsInLine] = NULL;
+	return nElementsInLine;
 }
 
 double calculateMagnitude(const double x, const double y, const double z)

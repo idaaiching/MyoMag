@@ -88,17 +88,7 @@ void readCSV_line15(void) {
   CU_ASSERT_EQUAL( signal_arr[14].z , -62.5);
 }
 
-void read_csv_twice_should_give_same_result(void) {
-  Signal signal_arr[7024];
-  char filepath[20];
-  strcpy(filepath, "src/AccData.csv");
-  readCSV(filepath, signal_arr, 0, 7024);
-  readCSV(filepath, signal_arr, 0, 7024);
-  CU_ASSERT_EQUAL( signal_arr[14].t , 141);
-  CU_ASSERT_EQUAL( signal_arr[14].x , 1031.25);
-  CU_ASSERT_EQUAL( signal_arr[14].y , 31.25);
-  CU_ASSERT_EQUAL( signal_arr[14].z , -62.5);
-}
+
 
 void repeat_magnitude_calculation_should_not_change_result(void) {
   double mag_a[7024];
@@ -171,7 +161,6 @@ int main ( void )
         (NULL == CU_add_test(pSuite, "spatial_data_is_commutative_for_magnitude", spatial_data_is_commutative_for_magnitude)) ||
         (NULL == CU_add_test(pSuite, "length_of_accelerometer_struct", length_of_accelerometer_struct)) ||
         (NULL == CU_add_test(pSuite, "readCSV_line15", readCSV_line15)) ||
-        (NULL == CU_add_test(pSuite, "read_csv_twice_should_give_same_result", read_csv_twice_should_give_same_result)) ||
         (NULL == CU_add_test(pSuite, "repeat_magnitude_calculation_should_not_change_result", repeat_magnitude_calculation_should_not_change_result)) ||
         (NULL == CU_add_test(pSuite, "myomag_tested_with_differnt_nsplits", myomag_tested_with_differnt_nsplits))  
       )
