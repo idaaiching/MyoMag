@@ -1,5 +1,7 @@
 // acc.c 
 
+#include "acc.h"  
+#include "AccelerationMagnitude.h"
 
 #include <stddef.h>
 #include <stdio.h>
@@ -7,8 +9,6 @@
 #include <string.h>
 #include <math.h>
 
-
-#include "acc.h"  
 
 #define MAXLINE 100 // storage for one line
 
@@ -47,7 +47,6 @@ int readCSV( const char *filepath, DATA *data_arr, int idx_start, int idx_end )
 		idx++;
 	};
 	fclose(fp);
-
 	return idx;
 }
 
@@ -80,33 +79,36 @@ int getLine( char *line, char *line_arr[], int n_col_csv)
 	return na;
 }
 
-void calculateMagnitude(const DATA *data_arr, double *magnitude_arr, int idx_start, int idx_end )
+double calculateMagnitude(const double x, const double y, const double z)
 {
-	for ( int i = 0; i <= (idx_end - idx_start); i++ ){
-		magnitude_arr[idx_start + i] = sqrt(
-			pow(data_arr[i].x, 2) + 
-			pow(data_arr[i].y, 2) + 
-			pow(data_arr[i].z, 2));
-	}	
+	return sqrt(x*x + y*y + z*z);
 }
 
 void myomag(const char *filepath, double *magnitude_arr, int nlines, int nsplits)
 {
 	int steps;
-	steps = nlines/nsplits; // warning: integer division!
+	steps = (nlines-1)/nsplits; // warning: integer division!
 	DATA data_arr[steps+1];
 	int idx_start = 0;
 	int idx_end = steps;
+	int i;
 	// read and process data in packages of size <steps>
 	for(idx_start = 0; idx_end  < nlines; idx_start += steps, idx_end += steps){
 		readCSV(filepath, data_arr, idx_start, idx_end); 
-		calculateMagnitude(data_arr, magnitude_arr, idx_start, idx_end);
+		for (i = 0; i <= (idx_end - idx_start); i++){
+			magnitude_arr[idx_start+i] = calculateMagnitude(
+				data_arr[i].x, data_arr[i].y, data_arr[i].z);
+		}
 		if(idx_start == 0) idx_start++;
 	}
 	// remaining steps
 	if((nlines - idx_start ) > 0){
 		readCSV(filepath, data_arr, idx_start, nlines-1); 
-		calculateMagnitude(data_arr, magnitude_arr, idx_start, nlines-1);	
+
+		for (i = 0; i <= (nlines-1 - idx_start); i++){
+			magnitude_arr[idx_start+i] = calculateMagnitude(
+				data_arr[i].x, data_arr[i].y, data_arr[i].z);
+		}		
 	}
 }
 
@@ -155,6 +157,5 @@ void initPyMyomag(void)
 		 "Extension module PyMyomag to calculate the magnitude of an accelerometer signal.");
 }
 */
-
 
 

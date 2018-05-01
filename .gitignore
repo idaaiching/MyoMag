@@ -1,3 +1,11 @@
+
+#executables 
+myomag
+myomag_test
+
+#
+macOs
+
 # Prerequisites
 *.d
 
@@ -52,3 +60,4 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+

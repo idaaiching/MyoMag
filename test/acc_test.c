@@ -18,6 +18,7 @@
 #include <stdlib.h>
 
 #include "acc.h"
+//#include "AccelerationMagnitude.h"
 
 /* Test Suite setup and cleanup functions: */
 
@@ -48,12 +49,7 @@ void test_case_sample(void)
 
 
 void magnitude_of_6_3_2_is_7(void) {
-  DATA data_arr[1] = {
-    {.t = 10, .x=6., .y=3., .z=2.}
-  };
-  double mag[1];
-  calculateMagnitude(data_arr ,mag, 0, 1);
-  CU_ASSERT_EQUAL( mag[0] , 7);
+  CU_ASSERT_EQUAL(calculateMagnitude(6, 3, 2) , 7);
 }
 
 void initialize_struct_accelerometer(void) {
@@ -67,24 +63,9 @@ void initialize_struct_accelerometer(void) {
 }
 
 void spatial_data_is_commutative_for_magnitude(void) {
-  DATA data_arr[2] = {
-    {.t = 10, .x=3., .y=6., .z=2.},
-    {.t = 10, .x=6., .y=3., .z=2.}
-  };
-  double mag[2];
-  calculateMagnitude(data_arr, mag, 0, 2);
-  CU_ASSERT_EQUAL( mag[0] , mag[1]);
+  CU_ASSERT_EQUAL(calculateMagnitude(3, 6, 2), calculateMagnitude(6, 2, 3));
 }
 
-void maganitude_should_be_timeindependent(void) {
-  DATA data_arr[2] = {
-    {.t = 3, .x=6., .y=3., .z=2.},
-    {.t = 8, .x=6., .y=3., .z=2.}
-  };
-  double mag[2];
-  calculateMagnitude(data_arr, mag, 0, 2);
-  CU_ASSERT_EQUAL( mag[0] , mag[1]);
-}
 
 void length_of_accelerometer_struct(void){
   DATA data_arr[2] = {
@@ -119,21 +100,16 @@ void read_csv_twice_should_give_same_result(void) {
   CU_ASSERT_EQUAL( data_arr[14].z , -62.5);
 }
 
-void magnitude_calculated_in_two_steps_should_be_the_same_as_in_one_step(void) {
-  DATA a[7024];
-  DATA b[3024];
+void repeat_magnitude_calculation_should_not_change_result(void) {
   double mag_a[7024];
   double mag_b[7024];
   char filepath[20];
   strcpy(filepath, "src/AccData.csv");
 
-  readCSV(filepath, a, 0, 7024);
-  calculateMagnitude(a, mag_a, 0, 7024);
+  myomag(filepath, mag_a, 7024, 1);
 
-  readCSV(filepath, b, 0, 3000);
-  calculateMagnitude(b, mag_b, 0, 3000);
-  readCSV(filepath, b, 3000, 7024);
-  calculateMagnitude(b, mag_b, 3000, 7024);
+  myomag(filepath, mag_b, 7024, 1);
+  myomag(filepath, mag_b, 7024, 1);
 
   CU_ASSERT_DOUBLE_EQUAL( mag_a[1], 1003.9, 0.1);
   CU_ASSERT_EQUAL( mag_a[1], mag_b[1]);
@@ -158,7 +134,7 @@ void myomag_tested_with_differnt_nsplits(void) {
 
   CU_ASSERT_DOUBLE_EQUAL( a[1], 1003.9, 0.1);
   CU_ASSERT_DOUBLE_EQUAL( a[1], b[1], 0.1);
-  CU_ASSERT_DOUBLE_EQUAL( a[1], c[1], 0.1);
+  CU_ASSERT_DOUBLE_EQUAL( a[1], b[1], 0.1);
 
   CU_ASSERT_DOUBLE_EQUAL( a[300], 1032.2, 0.1);
   CU_ASSERT_DOUBLE_EQUAL( a[300], b[300], 0.1);
@@ -193,11 +169,10 @@ int main ( void )
    if ( (NULL == CU_add_test(pSuite, "magnitude_of_6_3_2_is_7", magnitude_of_6_3_2_is_7)) ||
         (NULL == CU_add_test(pSuite, "initialize_struct_accelerometer", initialize_struct_accelerometer)) ||
         (NULL == CU_add_test(pSuite, "spatial_data_is_commutative_for_magnitude", spatial_data_is_commutative_for_magnitude)) ||
-        (NULL == CU_add_test(pSuite, "maganitude_should_be_timeindependent", maganitude_should_be_timeindependent)) ||
         (NULL == CU_add_test(pSuite, "length_of_accelerometer_struct", length_of_accelerometer_struct)) ||
         (NULL == CU_add_test(pSuite, "readCSV_line15", readCSV_line15)) ||
         (NULL == CU_add_test(pSuite, "read_csv_twice_should_give_same_result", read_csv_twice_should_give_same_result)) ||
-        (NULL == CU_add_test(pSuite, "magnitude_calculated_in_two_steps_should_be_the_same_as_in_one_step", magnitude_calculated_in_two_steps_should_be_the_same_as_in_one_step)) ||
+        (NULL == CU_add_test(pSuite, "repeat_magnitude_calculation_should_not_change_result", repeat_magnitude_calculation_should_not_change_result)) ||
         (NULL == CU_add_test(pSuite, "myomag_tested_with_differnt_nsplits", myomag_tested_with_differnt_nsplits))  
       )
    {

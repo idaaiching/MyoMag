@@ -18,12 +18,12 @@ int main(int argc, char* argv[])
 	char filepath[20];
 	strcpy(filepath, "src/AccData.csv");
 	int n_repetition = 1; // multiple executions of program to measure time 
-	int i1 = 1, i2 = 6000, i3 = 7023; // line index for plotting
+	int i1 = 1, i2 = 300, i3 = 7023; // line index for plotting
 
-	printf("\n********* Start Myomag *********\n\n");
+	printf("********** Start Myomag *********\n\n");
 	start_t = clock();
 	for(int i = 0; i < n_repetition; i++){
-		myomag(filepath, magnitude_arr, nlines, 3);
+		myomag(filepath, magnitude_arr, nlines, 2);
 	}
 	end_t = clock();
 
