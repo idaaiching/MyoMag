@@ -22,7 +22,6 @@ int readCSV( const char *filepath, Signal *signal_arr, int idx_start, int idx_en
     	return 0;
     }
 	char line[MAXLINE];
-	Signal instance;
 	int nColumns = 4; 
 	char *line_arr[nColumns];
 	int nElementsInLine;
@@ -39,11 +38,10 @@ int readCSV( const char *filepath, Signal *signal_arr, int idx_start, int idx_en
 				lineIndex, nElementsInLine, nColumns);
 			break;			
 		}		
-		instance.t = atoi( line_arr[0] );
-		instance.x = atof( line_arr[1] );
-		instance.y = atof( line_arr[2] );
-		instance.z = atof( line_arr[3] );
-		signal_arr[lineIndex - idx_start] = instance;
+		signal_arr[lineIndex - idx_start].t = atof( line_arr[0] );
+		signal_arr[lineIndex - idx_start].x = atof( line_arr[1] );
+		signal_arr[lineIndex - idx_start].y = atof( line_arr[2] );
+		signal_arr[lineIndex - idx_start].z = atof( line_arr[3] );
 		lineIndex++;
 	};
 	fclose(filePointer);
