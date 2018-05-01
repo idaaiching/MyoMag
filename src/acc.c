@@ -1,7 +1,7 @@
 // acc.c 
 
 #include "acc.h"  
-#include "AccelerationMagnitude.h"
+//#include "AccelerationMagnitude.h"
 
 #include <stddef.h>
 #include <stdio.h>
