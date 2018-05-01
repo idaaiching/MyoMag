@@ -10,7 +10,7 @@ TESTDIR= test
 PYTHONDIR= -L/usr/include/python2.7
 INC=-I$(SRCDIR) -I$(TESTDIR) -I$(PYTHONDIR)
 
-OBJS= acc.o 
+OBJS= acc.o DataLoader.o
 TESTS=acc_test.o
 
 %.o :	$(SRCDIR)/%.c

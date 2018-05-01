@@ -18,7 +18,7 @@
 #include <stdlib.h>
 
 #include "acc.h"
-//#include "AccelerationMagnitude.h"
+#include "DataLoader.h"
 
 /* Test Suite setup and cleanup functions: */
 
@@ -160,7 +160,7 @@ int main ( void )
         (NULL == CU_add_test(pSuite, "initialize_struct_accelerometer", initialize_struct_accelerometer)) ||
         (NULL == CU_add_test(pSuite, "spatial_data_is_commutative_for_magnitude", spatial_data_is_commutative_for_magnitude)) ||
         (NULL == CU_add_test(pSuite, "length_of_accelerometer_struct", length_of_accelerometer_struct)) ||
-        (NULL == CU_add_test(pSuite, "readCSV_line15", readCSV_line15)) ||
+        (NULL == CU_add_test(pSuite, "readCSV_line15", readCSV_line15)) |
         (NULL == CU_add_test(pSuite, "repeat_magnitude_calculation_should_not_change_result", repeat_magnitude_calculation_should_not_change_result)) ||
         (NULL == CU_add_test(pSuite, "myomag_tested_with_differnt_nsplits", myomag_tested_with_differnt_nsplits))  
       )
