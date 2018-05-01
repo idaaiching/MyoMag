@@ -13,7 +13,7 @@
 #define MAXLINE 100 // storage for one line
 
 // returns number of lines read in.
-int readCSV( const char *filepath, DATA *data_arr, int idx_start, int idx_end )	
+int readCSV( const char *filepath, Signal *signal_arr, int idx_start, int idx_end )	
 {
     FILE *fp = NULL;
     fp = fopen(filepath, "r");
@@ -22,7 +22,7 @@ int readCSV( const char *filepath, DATA *data_arr, int idx_start, int idx_end )
     	return 1;
     }
 	char line[MAXLINE];
-	DATA instance;
+	Signal instance;
 	int n_col_csv = 4; 
 	char *line_arr[n_col_csv];
 	int na;
@@ -43,7 +43,7 @@ int readCSV( const char *filepath, DATA *data_arr, int idx_start, int idx_end )
 		instance.x = atof( line_arr[1] );
 		instance.y = atof( line_arr[2] );
 		instance.z = atof( line_arr[3] );
-		data_arr[idx - idx_start] = instance;
+		signal_arr[idx - idx_start] = instance;
 		idx++;
 	};
 	fclose(fp);
@@ -88,26 +88,26 @@ void myomag(const char *filepath, double *magnitude_arr, int nlines, int nsplits
 {
 	int steps;
 	steps = (nlines-1)/nsplits; // warning: integer division!
-	DATA data_arr[steps+1];
+	Signal signal_arr[steps+1];
 	int idx_start = 0;
 	int idx_end = steps;
 	int i;
-	// read and process data in packages of size <steps>
+	// read and process signal in packages of size <steps>
 	for(idx_start = 0; idx_end  < nlines; idx_start += steps, idx_end += steps){
-		readCSV(filepath, data_arr, idx_start, idx_end); 
+		readCSV(filepath, signal_arr, idx_start, idx_end); 
 		for (i = 0; i <= (idx_end - idx_start); i++){
 			magnitude_arr[idx_start+i] = calculateMagnitude(
-				data_arr[i].x, data_arr[i].y, data_arr[i].z);
+				signal_arr[i].x, signal_arr[i].y, signal_arr[i].z);
 		}
 		if(idx_start == 0) idx_start++;
 	}
 	// remaining steps
 	if((nlines - idx_start ) > 0){
-		readCSV(filepath, data_arr, idx_start, nlines-1); 
+		readCSV(filepath, signal_arr, idx_start, nlines-1); 
 
 		for (i = 0; i <= (nlines-1 - idx_start); i++){
 			magnitude_arr[idx_start+i] = calculateMagnitude(
-				data_arr[i].x, data_arr[i].y, data_arr[i].z);
+				signal_arr[i].x, signal_arr[i].y, signal_arr[i].z);
 		}		
 	}
 }

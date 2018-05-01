@@ -53,13 +53,13 @@ void magnitude_of_6_3_2_is_7(void) {
 }
 
 void initialize_struct_accelerometer(void) {
-  DATA data_arr[1] = {
+  Signal signal_arr[1] = {
     {.t = 10, .x=6., .y=3., .z=2.}
   };  
-  CU_ASSERT_EQUAL( data_arr[0].t , 10);
-  CU_ASSERT_EQUAL( data_arr[0].x , 6);
-  CU_ASSERT_EQUAL( data_arr[0].y , 3);
-  CU_ASSERT_EQUAL( data_arr[0].z , 2);
+  CU_ASSERT_EQUAL( signal_arr[0].t , 10);
+  CU_ASSERT_EQUAL( signal_arr[0].x , 6);
+  CU_ASSERT_EQUAL( signal_arr[0].y , 3);
+  CU_ASSERT_EQUAL( signal_arr[0].z , 2);
 }
 
 void spatial_data_is_commutative_for_magnitude(void) {
@@ -68,36 +68,36 @@ void spatial_data_is_commutative_for_magnitude(void) {
 
 
 void length_of_accelerometer_struct(void){
-  DATA data_arr[2] = {
+  Signal signal_arr[2] = {
     {.t = 10, .x=6., .y=3., .z=2.},
     {.t = 10, .x=6., .y=3., .z=2.}
   };
-  size_t length = sizeof(data_arr)/sizeof(data_arr[0]);
+  size_t length = sizeof(signal_arr)/sizeof(signal_arr[0]);
   CU_ASSERT_EQUAL(length , 2);
 }
 
 
 void readCSV_line15(void) {
-  DATA data_arr[7024];
+  Signal signal_arr[7024];
   char filepath[20];
   strcpy(filepath, "src/AccData.csv");
-  readCSV(filepath, data_arr, 0, 7024);
-  CU_ASSERT_EQUAL( data_arr[14].t , 141);
-  CU_ASSERT_EQUAL( data_arr[14].x , 1031.25);
-  CU_ASSERT_EQUAL( data_arr[14].y , 31.25);
-  CU_ASSERT_EQUAL( data_arr[14].z , -62.5);
+  readCSV(filepath, signal_arr, 0, 7024);
+  CU_ASSERT_EQUAL( signal_arr[14].t , 141);
+  CU_ASSERT_EQUAL( signal_arr[14].x , 1031.25);
+  CU_ASSERT_EQUAL( signal_arr[14].y , 31.25);
+  CU_ASSERT_EQUAL( signal_arr[14].z , -62.5);
 }
 
 void read_csv_twice_should_give_same_result(void) {
-  DATA data_arr[7024];
+  Signal signal_arr[7024];
   char filepath[20];
   strcpy(filepath, "src/AccData.csv");
-  readCSV(filepath, data_arr, 0, 7024);
-  readCSV(filepath, data_arr, 0, 7024);
-  CU_ASSERT_EQUAL( data_arr[14].t , 141);
-  CU_ASSERT_EQUAL( data_arr[14].x , 1031.25);
-  CU_ASSERT_EQUAL( data_arr[14].y , 31.25);
-  CU_ASSERT_EQUAL( data_arr[14].z , -62.5);
+  readCSV(filepath, signal_arr, 0, 7024);
+  readCSV(filepath, signal_arr, 0, 7024);
+  CU_ASSERT_EQUAL( signal_arr[14].t , 141);
+  CU_ASSERT_EQUAL( signal_arr[14].x , 1031.25);
+  CU_ASSERT_EQUAL( signal_arr[14].y , 31.25);
+  CU_ASSERT_EQUAL( signal_arr[14].z , -62.5);
 }
 
 void repeat_magnitude_calculation_should_not_change_result(void) {
