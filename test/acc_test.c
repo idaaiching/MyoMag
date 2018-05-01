@@ -33,21 +33,6 @@ int clean_suite(void)
 
 /************* Test case functions ****************/
 
-void test_case_sample(void)
-{
-   CU_ASSERT(CU_TRUE);
-   CU_ASSERT_STRING_EQUAL("string #1", "string #1");
-   CU_ASSERT_NOT_EQUAL(2, -1);
-   CU_ASSERT_STRING_NOT_EQUAL("string #1", "string #2");
-
-   CU_ASSERT(CU_FALSE);
-   CU_ASSERT_EQUAL(2, 3);
-   CU_ASSERT_STRING_NOT_EQUAL("string #1", "string #1");
-   CU_ASSERT_STRING_EQUAL("string #1", "string #2");
-}
-
-
-
 void magnitude_of_6_3_2_is_7(void) {
   CU_ASSERT_EQUAL(calculateMagnitude(6, 3, 2) , 7);
 }
@@ -66,7 +51,6 @@ void spatial_data_is_commutative_for_magnitude(void) {
   CU_ASSERT_EQUAL(calculateMagnitude(3, 6, 2), calculateMagnitude(6, 2, 3));
 }
 
-
 void length_of_accelerometer_struct(void){
   Signal signal_arr[2] = {
     {.t = 10, .x=6., .y=3., .z=2.},
@@ -75,7 +59,6 @@ void length_of_accelerometer_struct(void){
   size_t length = sizeof(signal_arr)/sizeof(signal_arr[0]);
   CU_ASSERT_EQUAL(length , 2);
 }
-
 
 void readCSV_line15(void) {
   Signal signal_arr[7024];
@@ -87,8 +70,6 @@ void readCSV_line15(void) {
   CU_ASSERT_EQUAL( signal_arr[14].y , 31.25);
   CU_ASSERT_EQUAL( signal_arr[14].z , -62.5);
 }
-
-
 
 void repeat_magnitude_calculation_should_not_change_result(void) {
   double mag_a[7024];
@@ -141,8 +122,7 @@ void myomag_tested_with_differnt_nsplits(void) {
 
 /************* Test Runner Code goes here **************/
 
-int main ( void )
-{
+int main ( void ){
    CU_pSuite pSuite = NULL;
    /* initialize the CUnit test registry */
    if ( CUE_SUCCESS != CU_initialize_registry() )

@@ -7,6 +7,7 @@
 
 
 #define MAXLINE 100 // storage for one line
+#define NCOLUMNS 4
 
 // returns number of lines read in.
 int readCSV( const char *filepath, Signal *signal_arr, int idx_start, int idx_end )	
@@ -18,8 +19,7 @@ int readCSV( const char *filepath, Signal *signal_arr, int idx_start, int idx_en
     	return 0;
     }
 	char line[MAXLINE];
-	int nColumns = 4; 
-	char *line_arr[nColumns];
+	char *line_arr[NCOLUMNS];
 	int nElementsInLine;
 	int lineIndex = 0;
 	while( fgets(line, sizeof(line), filePointer) != NULL && lineIndex <= idx_end){
@@ -28,10 +28,10 @@ int readCSV( const char *filepath, Signal *signal_arr, int idx_start, int idx_en
 			lineIndex++;
 			continue;			
 		}
-		nElementsInLine = splitCSVLine(line, line_arr, nColumns);
-		if (nElementsInLine > nColumns){
+		nElementsInLine = splitCSVLine(line, line_arr, NCOLUMNS);
+		if (nElementsInLine > NCOLUMNS){
 			printf("Error: Line %d\n has only %d\n entries for t, x, y, z.  Expected %d\n!", 
-				lineIndex, nElementsInLine, nColumns);
+				lineIndex, nElementsInLine, NCOLUMNS);
 			break;			
 		}		
 		signal_arr[lineIndex - idx_start].t = atof( line_arr[0] );

@@ -12,13 +12,11 @@
 
 
 
-double calculateMagnitude(const double x, const double y, const double z)
-{
+double calculateMagnitude(const double x, const double y, const double z){
 	return sqrt(x*x + y*y + z*z);
 }
 
-void myomag(const char *filepath, double *magnitude_arr, int nlines, int nsplits)
-{
+void myomag(const char *filepath, double *magnitude_arr, int nlines, int nsplits){
 	int steps;
 	steps = (nlines-1)/nsplits; // warning: integer division!
 	Signal signal_arr[steps+1];
@@ -37,7 +35,6 @@ void myomag(const char *filepath, double *magnitude_arr, int nlines, int nsplits
 	// remaining steps
 	if((nlines - idx_start ) > 0){
 		readCSV(filepath, signal_arr, idx_start, nlines-1); 
-
 		for (i = 0; i <= (nlines-1 - idx_start); i++){
 			magnitude_arr[idx_start + i] = calculateMagnitude(
 				signal_arr[i].x, signal_arr[i].y, signal_arr[i].z);
