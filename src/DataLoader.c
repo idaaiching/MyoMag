@@ -10,7 +10,7 @@
 #define NCOLUMNS 4
 
 // returns number of lines read in.
-int readCSV( const char *filepath, Signal *signal_arr, int idx_start, int idx_end )	
+int readCSV( const char *filepath, Signal *signal_arr, int fromLine, int toLine )	
 {
     FILE *filePointer = NULL;
     filePointer = fopen(filepath, "r");
@@ -22,8 +22,8 @@ int readCSV( const char *filepath, Signal *signal_arr, int idx_start, int idx_en
 	char *line_arr[NCOLUMNS];
 	int nElementsInLine;
 	int lineIndex = 0;
-	while( fgets(line, sizeof(line), filePointer) != NULL && lineIndex <= idx_end){
-		if( lineIndex < idx_start) 
+	while( fgets(line, sizeof(line), filePointer) != NULL && lineIndex <= toLine){
+		if( lineIndex < fromLine) 
 		{
 			lineIndex++;
 			continue;			
@@ -34,10 +34,10 @@ int readCSV( const char *filepath, Signal *signal_arr, int idx_start, int idx_en
 				lineIndex, nElementsInLine, NCOLUMNS);
 			break;			
 		}		
-		signal_arr[lineIndex - idx_start].t = atof( line_arr[0] );
-		signal_arr[lineIndex - idx_start].x = atof( line_arr[1] );
-		signal_arr[lineIndex - idx_start].y = atof( line_arr[2] );
-		signal_arr[lineIndex - idx_start].z = atof( line_arr[3] );
+		signal_arr[lineIndex - fromLine].t = atof( line_arr[0] );
+		signal_arr[lineIndex - fromLine].x = atof( line_arr[1] );
+		signal_arr[lineIndex - fromLine].y = atof( line_arr[2] );
+		signal_arr[lineIndex - fromLine].z = atof( line_arr[3] );
 		lineIndex++;
 	};
 	fclose(filePointer);
