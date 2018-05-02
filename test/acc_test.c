@@ -63,7 +63,7 @@ void length_of_accelerometer_struct(void){
 void readCSV_line15(void) {
   Signal signal_arr[7024];
   char filepath[20];
-  strcpy(filepath, "src/AccData.csv");
+  strcpy(filepath, "data/AccData.csv");
   readCSV(filepath, signal_arr, 0, 7024);
   CU_ASSERT_EQUAL( signal_arr[14].t , 141);
   CU_ASSERT_EQUAL( signal_arr[14].x , 1031.25);
@@ -75,12 +75,12 @@ void repeat_magnitude_calculation_should_not_change_result(void) {
   double mag_a[7024];
   double mag_b[7024];
   char filepath[20];
-  strcpy(filepath, "src/AccData.csv");
+  strcpy(filepath, "data/AccData.csv");
 
-  myomag(filepath, mag_a, 7024, 1);
+  calculateMagnitudeFromCSV(filepath, mag_a, 7024, 1);
 
-  myomag(filepath, mag_b, 7024, 1);
-  myomag(filepath, mag_b, 7024, 1);
+  calculateMagnitudeFromCSV(filepath, mag_b, 7024, 1);
+  calculateMagnitudeFromCSV(filepath, mag_b, 7024, 1);
 
   CU_ASSERT_DOUBLE_EQUAL( mag_a[1], 1003.9, 0.1);
   CU_ASSERT_EQUAL( mag_a[1], mag_b[1]);
@@ -92,16 +92,16 @@ void repeat_magnitude_calculation_should_not_change_result(void) {
   CU_ASSERT_EQUAL( mag_a[6000], mag_b[6000]);
 }
 
-void myomag_tested_with_differnt_nsplits(void) {
+void calculateMagnitudeFromCSV_tested_with_differnt_nsplits(void) {
   double a[7024];
   double b[7024];
   double c[7024];
   char filepath[20];
-  strcpy(filepath, "src/AccData.csv");
+  strcpy(filepath, "data/AccData.csv");
 
-  myomag(filepath, a, 7024, 1);
-  myomag(filepath, b, 7024, 5);
-  myomag(filepath, c, 7024, 50);
+  calculateMagnitudeFromCSV(filepath, a, 7024, 1);
+  calculateMagnitudeFromCSV(filepath, b, 7024, 5);
+  calculateMagnitudeFromCSV(filepath, c, 7024, 50);
 
   CU_ASSERT_DOUBLE_EQUAL( a[1], 1003.9, 0.1);
   CU_ASSERT_DOUBLE_EQUAL( a[1], b[1], 0.1);
@@ -142,7 +142,7 @@ int main ( void ){
         (NULL == CU_add_test(pSuite, "length_of_accelerometer_struct", length_of_accelerometer_struct)) ||
         (NULL == CU_add_test(pSuite, "readCSV_line15", readCSV_line15)) |
         (NULL == CU_add_test(pSuite, "repeat_magnitude_calculation_should_not_change_result", repeat_magnitude_calculation_should_not_change_result)) ||
-        (NULL == CU_add_test(pSuite, "myomag_tested_with_differnt_nsplits", myomag_tested_with_differnt_nsplits))  
+        (NULL == CU_add_test(pSuite, "calculateMagnitudeFromCSV_tested_with_differnt_nsplits", calculateMagnitudeFromCSV_tested_with_differnt_nsplits))  
       )
    {
       CU_cleanup_registry();

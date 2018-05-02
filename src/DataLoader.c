@@ -9,7 +9,7 @@
 #define MAXLINE 100 // storage for one line
 #define NCOLUMNS 4
 
-// returns number of lines read in.
+// returns number of last line read 
 int readCSV( const char *filepath, Signal *signal_arr, int fromLine, int toLine )	
 {
     FILE *filePointer = NULL;
@@ -45,7 +45,6 @@ int readCSV( const char *filepath, Signal *signal_arr, int fromLine, int toLine 
 }
 
 // loops through one line and saves each column entry in the line_arr
-// for MyoMag: line_arr = [t, x, y, z] of one line
 int splitCSVLine( char *line, char *line_arr[], int nColumns)
 {
 	char *p;

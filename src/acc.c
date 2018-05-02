@@ -16,7 +16,7 @@ double calculateMagnitude(const double x, const double y, const double z){
 	return sqrt(x*x + y*y + z*z);
 }
 
-void myomag(const char *filePath, double *magnitude_arr, int nlines, int nsplits){
+void calculateMagnitudeFromCSV(const char *filePath, double *magnitude_arr, int nlines, int nsplits){
 	int steps;
 	steps = (nlines-1)/nsplits; // warning: integer division!
 	Signal signal_arr[steps+1];
@@ -44,7 +44,7 @@ void myomag(const char *filePath, double *magnitude_arr, int nlines, int nsplits
 
 //**************************************************
 // Extension module for Python
-// make myomag function compatible to be called in Python
+// make calculateMagnitudeFromCSV function compatible to be called in Python
 /*
 #include <Python.h>
 static PyObject*
@@ -60,7 +60,7 @@ PyMyomag(PyObject* self, PyObject* args, PyObject* kwds)
 
   // calculation of magnitude
   double magnitude[nlines]; //= {0};
-  myomag(filePath, magnitude, nlines, nsplits);
+  calculateMagnitudeFromCSV(filePath, magnitude, nlines, nsplits);
 
   // conversion from C-object(magnitude) to a Python object (result)
   Py_ssize_t len = nlines;

@@ -10,23 +10,19 @@
 #include "acc.h"  
 
 
-int main(int argc, char* argv[])
-{
-	clock_t start_timestamp;
-	clock_t end_timestamp;
-	int nlines = 7024;
-	double magnitude_arr[7024] = {0};
-	char filepath[20];
-	strcpy(filepath, "src/AccData.csv");
-	int n_repetition = 1; // multiple executions of program to measure time 
-	int i1 = 1, i2 = 300, i3 = 7023; // line index for plotting
+int myomag(const char* filePath, int nLines, int nSplits){
+	clock_t startTimestamp;
+	clock_t endTimestamp;
+	double magnitude_arr[nLines];
+	int nRepetition = 1; // multiple executions of program to measure time 
+	int i1 = 1, i2 = 300, i3 = 7023; // line index for printf
 
 	printf("********** Start Myomag *********\n\n");
-	start_timestamp = clock();
-	for(int i = 0; i < n_repetition; i++){
-		myomag(filepath, magnitude_arr, nlines, 2);
+	startTimestamp = clock();
+	for(int i = 0; i < nRepetition; i++){
+		calculateMagnitudeFromCSV(filePath, magnitude_arr, nLines, nSplits);
 	}
-	end_timestamp = clock();
+	endTimestamp = clock();
 
 	// ********* Printing results
 	printf("The magnitude has been calculated an saved in magnetude_array.\n"
@@ -38,8 +34,19 @@ int main(int argc, char* argv[])
 		magnitude_arr[i3]
 		);
 	printf("Total time taken by CPU for %d repetitions: %.2f seconds\n", 
-		n_repetition,
-		(double)(end_timestamp - start_timestamp) / CLOCKS_PER_SEC );
+		nRepetition,
+		(double)(endTimestamp - startTimestamp) / CLOCKS_PER_SEC );
+	return 0;
+}
+	
+int main(int argc, char* argv[])
+{
+	char filePath[30];
+	strcpy(filePath, "data/AccData.csv");
+	int nLines = 7024;
+	int nSplits = 2;
+
+	myomag(filePath, nLines, nSplits);
 
 	printf("Done.\n");
 	
