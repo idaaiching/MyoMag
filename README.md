@@ -7,7 +7,6 @@ MyoMag is a tool to read signals from an accelerometer via a csv file and calcul
 The signal's data is saved in a csv file without any header lines and in the format (time in millisecond, X Acc, Y Acc, Z Acc in milliG).
 
 The csv file must be stored in the data folder of this directory.
-![alt text](screenshot/CSV_file.png "Screenshot of a CSV data file.")
 
 ## Getting Started
 
@@ -42,16 +41,13 @@ The result is saved in the variable "magnitude_arr".
 
 If you want to call the function via a Python script then see the Section "Call the C- function with a Pyhton script" for further information.
 
-
 ## Definition of Done
-
 
 Done is displayed, when Myomag read succesfully in the csv-file, processed the data and saved the value of the magnitude for each line (each time step) in the variable magnitude_arr.
 
-
 ## Call the C- function with a Pyhton script
 
-It is possible to wrap the C-files of "myomag" into a package "PyMyomag" that can be called in a python script
+It is possible to wrap the C-files of "myomag" into a package "PyMyomag" that can be called in a python script. Please store your CSV data in the same directory as your python scripts.
 
 e.g.
 
@@ -92,9 +88,9 @@ The package will be installed and saved now in the site-packages folder of your 
 - Myomag is written in C and embedded in a Python environment.
 
 - The memory occupation is optimized by:
- -- Reading only a small number (1/nsplits) of records from the CSV file.
- -- Calculate their magnitude.
- -- Repeat until the entire file is processed.
+	- Reading only a small number (1/nsplits) of records from the CSV file.
+	- Calculate their magnitude.
+	- Repeat until the entire file is processed.
 
 	E.g. nSplits = 3 means that the program reads in only 1/3 of the csv data, calculates the magnitude and reuses the buffer for the next 1/3 of the data file.
 

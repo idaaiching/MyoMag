@@ -20,7 +20,7 @@ TESTS= DataLoader_test.o AccelerationMagnitude_test.o
 %.o :	$(TESTDIR)/%.c
 	$(CC) -c $< -o $@ $(INC)
 
-myomag:	$(OBJS) main.o
+myomag:	$(OBJS) myomag.o
 	$(CC) -o $@ $^ $(INC)
 
 dataloader_test: DataLoader_test.o $(OBJS) 

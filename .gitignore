@@ -2,6 +2,7 @@
 #Mac stuff
 .DS_Store
 src/.DS_Store
+Test/.DS_Store
 
 #executables 
 myomag
