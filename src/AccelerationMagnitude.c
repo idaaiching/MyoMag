@@ -1,6 +1,6 @@
-// acc.c 
+// AccelerationMagnitude.c 
 
-#include "acc.h"  
+#include "AccelerationMagnitude.h"  
 #include "DataLoader.h"
 
 

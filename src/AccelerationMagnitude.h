@@ -1,13 +1,9 @@
-// AccelerationMagnitude.h
-#ifndef ACCMAG_H_
-#define ACCMAG_H_
+// acc.h 
 
-#include <math.h>
-
-double computeMagnitude(const double x, const double y, const double z)
-{
-	return sqrt(x*x + y*y + z*z);
-}
+#ifndef ACC_H_   
+#define ACC_H_
 
 
-#endif
+void calculateMagnitudeFromCSV( const char *filePath, double *magnitude_arr, int nlines, int nsplits );
+double calculateMagnitude(const double x, const double y, const double z);
+#endif // ACC_H_

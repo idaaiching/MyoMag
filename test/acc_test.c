@@ -3,7 +3,7 @@
  * This is a script to unittest max.c using the CUnit interface.
  * The command to run the script is the following
  * 
- * gcc -Wall -c acc.c main.c 
+ * gcc -Wall -c AccelerationMagnitude.c main.c 
  * gcc -Wall -L/usr/local/lib -o acc_test acc_test.c acc.o -lcunit
  *
 */
@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "acc.h"
+#include "AccelerationMagnitude.h"
 #include "DataLoader.h"
 
 /* Test Suite setup and cleanup functions: */

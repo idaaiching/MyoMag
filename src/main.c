@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "acc.h"  
+#include "AccelerationMagnitude.h"  
 
 
 int myomag(const char* filePath, int nLines, int nSplits){
