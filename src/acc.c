@@ -16,27 +16,27 @@ double calculateMagnitude(const double x, const double y, const double z){
 	return sqrt(x*x + y*y + z*z);
 }
 
-void myomag(const char *filepath, double *magnitude_arr, int nlines, int nsplits){
+void myomag(const char *filePath, double *magnitude_arr, int nlines, int nsplits){
 	int steps;
 	steps = (nlines-1)/nsplits; // warning: integer division!
 	Signal signal_arr[steps+1];
-	int idx_start = 0;
-	int idx_end = steps;
+	int lineStart = 0;
+	int lineEnd = steps;
 	int i;
 	// read and process signal in packages of size <steps>
-	for(idx_start = 0; idx_end  < nlines; idx_start += steps, idx_end += steps){
-		readCSV(filepath, signal_arr, idx_start, idx_end); 
-		for (i = 0; i <= (idx_end - idx_start); i++){
-			magnitude_arr[idx_start+i] = calculateMagnitude(
+	for(lineStart = 0; lineEnd  < nlines; lineStart += steps, lineEnd += steps){
+		readCSV(filePath, signal_arr, lineStart, lineEnd); 
+		for (i = 0; i <= (lineEnd - lineStart); i++){
+			magnitude_arr[lineStart+i] = calculateMagnitude(
 				signal_arr[i].x, signal_arr[i].y, signal_arr[i].z);
 		}
-		if(idx_start == 0) idx_start++;
+		if(lineStart == 0) lineStart++;
 	}
 	// remaining steps
-	if((nlines - idx_start ) > 0){
-		readCSV(filepath, signal_arr, idx_start, nlines-1); 
-		for (i = 0; i <= (nlines-1 - idx_start); i++){
-			magnitude_arr[idx_start + i] = calculateMagnitude(
+	if(nlines  > lineStart){
+		readCSV(filePath, signal_arr, lineStart, nlines-1); 
+		for (i = 0; i + lineStart < nlines ; i++){
+			magnitude_arr[lineStart + i] = calculateMagnitude(
 				signal_arr[i].x, signal_arr[i].y, signal_arr[i].z);
 		}		
 	}
@@ -50,17 +50,17 @@ void myomag(const char *filepath, double *magnitude_arr, int nlines, int nsplits
 static PyObject*
 PyMyomag(PyObject* self, PyObject* args, PyObject* kwds)
 {
-  //static char* argnames[] = {"filepath","nlines","nsplits", NULL};
-  const char *filepath;
+  //static char* argnames[] = {"filePath","nlines","nsplits", NULL};
+  const char *filePath;
   int nlines;
   int nsplits;
   
-  if(!PyArg_ParseTuple(args,"sii", &filepath, &nlines, &nsplits ))
+  if(!PyArg_ParseTuple(args,"sii", &filePath, &nlines, &nsplits ))
     return NULL;
 
   // calculation of magnitude
   double magnitude[nlines]; //= {0};
-  myomag(filepath, magnitude, nlines, nsplits);
+  myomag(filePath, magnitude, nlines, nsplits);
 
   // conversion from C-object(magnitude) to a Python object (result)
   Py_ssize_t len = nlines;

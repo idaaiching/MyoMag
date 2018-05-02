@@ -34,10 +34,10 @@ int readCSV( const char *filepath, Signal *signal_arr, int fromLine, int toLine 
 				lineIndex, nElementsInLine, NCOLUMNS);
 			break;			
 		}		
-		signal_arr[lineIndex - fromLine].t = atof( line_arr[0] );
-		signal_arr[lineIndex - fromLine].x = atof( line_arr[1] );
-		signal_arr[lineIndex - fromLine].y = atof( line_arr[2] );
-		signal_arr[lineIndex - fromLine].z = atof( line_arr[3] );
+		signal_arr[lineIndex - fromLine].t = strtod( line_arr[0], NULL );
+		signal_arr[lineIndex - fromLine].x = strtod( line_arr[1], NULL );
+		signal_arr[lineIndex - fromLine].y = strtod( line_arr[2], NULL );
+		signal_arr[lineIndex - fromLine].z = strtod( line_arr[3], NULL );
 		lineIndex++;
 	};
 	fclose(filePointer);
@@ -56,19 +56,23 @@ int splitCSVLine( char *line, char *line_arr[], int nColumns)
 	for ( p = line; *p != '\0'; prevc = *p, p++){
 		if ( prevc == ',' ){
 			/* start new field */
-			if ( dp != NULL)
+			if ( dp != NULL){
 				*dp = '\0';  /*terminate prev*/
-			if ( nElementsInLine >= nColumns)
+			}
+			if ( nElementsInLine >= nColumns){
 				return nElementsInLine;
+			}
 			line_arr[nElementsInLine++] = p;
 			dp = p;
 		}
 		if ( *p != ',' )
 			*dp++ = *p;
 	}
-	if ( dp != NULL )
+	if ( dp != NULL ){
 		*dp = '\0';
-	if ( nElementsInLine < nColumns)
+	}
+	if ( nElementsInLine < nColumns){
 		line_arr[nElementsInLine] = NULL;
+	}
 	return nElementsInLine;
 }

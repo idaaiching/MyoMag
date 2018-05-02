@@ -12,7 +12,8 @@
 
 int main(int argc, char* argv[])
 {
-	clock_t start_t, end_t;
+	clock_t start_timestamp;
+	clock_t end_timestamp;
 	int nlines = 7024;
 	double magnitude_arr[7024] = {0};
 	char filepath[20];
@@ -21,11 +22,11 @@ int main(int argc, char* argv[])
 	int i1 = 1, i2 = 300, i3 = 7023; // line index for plotting
 
 	printf("********** Start Myomag *********\n\n");
-	start_t = clock();
+	start_timestamp = clock();
 	for(int i = 0; i < n_repetition; i++){
 		myomag(filepath, magnitude_arr, nlines, 2);
 	}
-	end_t = clock();
+	end_timestamp = clock();
 
 	// ********* Printing results
 	printf("The magnitude has been calculated an saved in magnetude_array.\n"
@@ -38,7 +39,7 @@ int main(int argc, char* argv[])
 		);
 	printf("Total time taken by CPU for %d repetitions: %.2f seconds\n", 
 		n_repetition,
-		(double)(end_t - start_t) / CLOCKS_PER_SEC );
+		(double)(end_timestamp - start_timestamp) / CLOCKS_PER_SEC );
 
 	printf("Done.\n");
 	

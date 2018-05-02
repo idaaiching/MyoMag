@@ -4,6 +4,6 @@
 #define ACC_H_
 
 
-void myomag( const char *filepath, double *magnitude_arr, int nlines, int nsplits );
+void myomag( const char *filePath, double *magnitude_arr, int nlines, int nsplits );
 double calculateMagnitude(const double x, const double y, const double z);
 #endif // ACC_H_
