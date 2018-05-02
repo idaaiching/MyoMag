@@ -8,6 +8,6 @@ typedef struct Signal{
 } Signal;
 
 int readCSV( const char *filepath, Signal *signal_arr, int idx_start, int idx_end );
-int splitCSVLine( char *line, char *line_arr[], int n_col_csv );
+int splitCSVLine( char *line, char *line_arr[], int nColumns );
 
 #endif

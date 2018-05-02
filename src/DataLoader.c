@@ -10,8 +10,7 @@
 #define NCOLUMNS 4
 
 // returns number of last line read 
-int readCSV( const char *filepath, Signal *signal_arr, int fromLine, int toLine )	
-{
+int readCSV( const char *filepath, Signal *signal_arr, int fromLine, int toLine )	{
     FILE *filePointer = NULL;
     filePointer = fopen(filepath, "r");
     if(filePointer == NULL){
@@ -23,8 +22,7 @@ int readCSV( const char *filepath, Signal *signal_arr, int fromLine, int toLine 
 	int nElementsInLine;
 	int lineIndex = 0;
 	while( fgets(line, sizeof(line), filePointer) != NULL && lineIndex <= toLine){
-		if( lineIndex < fromLine) 
-		{
+		if( lineIndex < fromLine) {
 			lineIndex++;
 			continue;			
 		}
@@ -45,8 +43,7 @@ int readCSV( const char *filepath, Signal *signal_arr, int fromLine, int toLine 
 }
 
 // loops through one line and saves each column entry in the line_arr
-int splitCSVLine( char *line, char *line_arr[], int nColumns)
-{
+int splitCSVLine( char *line, char *line_arr[], int nColumns){
 	char *p;
 	int nElementsInLine = 0;
 	char prevc = ',';   /* force recognizing first field */

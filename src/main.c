@@ -39,12 +39,17 @@ int myomag(const char* filePath, int nLines, int nSplits){
 	return 0;
 }
 	
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]){
+	if(argc != 4){
+		fprintf(stderr,
+			"Incorrect number of parameters. Usage: ./myomag <filename> <number of lines of the file> <number of splits for memory optimization>");
+		exit(-1);
+
+	}
 	char filePath[30];
-	strcpy(filePath, "data/AccData.csv");
-	int nLines = 7024;
-	int nSplits = 2;
+	strcpy(filePath, argv[1]);
+	int nLines = strtol(argv[2], NULL, 10);
+	int nSplits = strtol(argv[3], NULL, 10);
 
 	myomag(filePath, nLines, nSplits);
 

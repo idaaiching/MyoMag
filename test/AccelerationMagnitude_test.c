@@ -1,8 +1,6 @@
 /*
  * AccelerationMagnitude.c 
  * This is a unittest script for AccelerationMagnitude.c
- * 
- *
 */
 
 #include "CUnit/CUnit.h"
@@ -101,10 +99,7 @@ int main ( void ){
 
    /* add the tests to the suite */
    if ( (NULL == CU_add_test(pSuite, "magnitude_of_6_3_2_is_7", magnitude_of_6_3_2_is_7)) ||
-        //(NULL == CU_add_test(pSuite, "initialize_struct_accelerometer", initialize_struct_accelerometer)) ||
         (NULL == CU_add_test(pSuite, "spatial_data_is_commutative_for_magnitude", spatial_data_is_commutative_for_magnitude)) ||
-        //(NULL == CU_add_test(pSuite, "length_of_accelerometer_struct", length_of_accelerometer_struct)) ||
-        //(NULL == CU_add_test(pSuite, "readCSV_line15", readCSV_line15)) |
         (NULL == CU_add_test(pSuite, "repeat_magnitude_calculation_should_not_change_result", repeat_magnitude_calculation_should_not_change_result)) ||
         (NULL == CU_add_test(pSuite, "calculateMagnitudeFromCSV_tested_with_differnt_nsplits", calculateMagnitudeFromCSV_tested_with_differnt_nsplits))  
       )
