@@ -42,14 +42,23 @@ int myomag(const char* filePath, int nLines, int nSplits){
 int main(int argc, char* argv[]){
 	if(argc != 4){
 		fprintf(stderr,
-			"Incorrect number of parameters. Usage: ./myomag <filename> <number of lines of the file> <number of splits for memory optimization>");
+			"Incorrect number of parameters. Usage: ./myomag <filename> <number of lines of the file> <number of splits for memory optimization>\n");
 		exit(-1);
-
 	}
 	char filePath[30];
 	strcpy(filePath, argv[1]);
 	int nLines = strtol(argv[2], NULL, 10);
 	int nSplits = strtol(argv[3], NULL, 10);
+	if(nLines < 1){
+		fprintf(stderr,
+			"Incorrect nLines: The file can't have less than one line.\n");
+		exit(-1);		
+	}
+	if(nSplits < 1){
+		fprintf(stderr,
+			"Incorrect nSplits: The number of splits can't be less than one.\n");
+		exit(-1);		
+	}
 
 	myomag(filePath, nLines, nSplits);
 
