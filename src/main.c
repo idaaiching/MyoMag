@@ -1,7 +1,10 @@
-// main.c 
-// The MyoMag program reads in a signal data and 
-// process it to return its magnitude 
-// at each time step.
+/*
+* main.c 
+* The MyoMag program reads in a signal data file in CSV format and 
+* processes it to return the magnitude of each signal. 
+* at each time step.
+*/
+
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,9 +29,9 @@ int myomag(const char* filePath, int nLines, int nSplits){
 
 	// ********* Printing results
 	printf("The magnitude has been calculated an saved in magnetude_array.\n"
-		"The magnitude of lines %d, %d, %d are plotted here \n"
+		"The magnitude of line %d, %d, %d are plotted here \n"
 		" %g, %g, %g\n",
-		i1, i2, i3,
+		i1+1, i2+1, i3+1,
 		magnitude_arr[i1],
 		magnitude_arr[i2],
 		magnitude_arr[i3]

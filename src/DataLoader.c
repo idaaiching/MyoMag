@@ -14,8 +14,8 @@ int readCSV( const char *filepath, Signal *signal_arr, int fromLine, int toLine 
     FILE *filePointer = NULL;
     filePointer = fopen(filepath, "r");
     if(filePointer == NULL){
-    	printf("Error: Failed to open csv file!");
-    	return 0;
+    	printf("Error: Failed to open csv file!\n (Filepath is: %s )\n", filepath);
+    	exit(-1);
     }
 	char line[MAXLINE];
 	char *line_arr[NCOLUMNS];
@@ -30,7 +30,7 @@ int readCSV( const char *filepath, Signal *signal_arr, int fromLine, int toLine 
 		if (nElementsInLine > NCOLUMNS){
 			printf("Error: Line %d\n has only %d\n entries for t, x, y, z.  Expected %d\n!", 
 				lineIndex, nElementsInLine, NCOLUMNS);
-			break;			
+			exit(-1);			
 		}		
 		signal_arr[lineIndex - fromLine].t = strtod( line_arr[0], NULL );
 		signal_arr[lineIndex - fromLine].x = strtod( line_arr[1], NULL );

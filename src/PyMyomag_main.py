@@ -17,7 +17,7 @@
 import os
 import PyMyomag
 
-DataFile = 'AccData.csv'
+DataFile = "AccData.csv"
 nlines = 7024
 nsplits = 5
 

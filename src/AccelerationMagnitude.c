@@ -86,6 +86,6 @@ void initPyMyomag(void)
   Py_InitModule3("PyMyomag", PyMyomag_funcs,
 		 "Extension module PyMyomag to calculate the magnitude of an accelerometer signal.");
 }
-*/
 
+*/
 

@@ -1,7 +1,6 @@
 #ifndef DATALOADER_H
 #define DATALOADER_H
 
-
 typedef struct Signal{
 	double t; // time 
 	double x, y, z; // spatial coordiantes of accelerometer
