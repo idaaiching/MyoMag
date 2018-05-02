@@ -1,18 +1,12 @@
 /*
- * acc_test.c 
- * This is a script to unittest max.c using the CUnit interface.
- * The command to run the script is the following
+ * AccelerationMagnitude.c 
+ * This is a unittest script for AccelerationMagnitude.c
  * 
- * gcc -Wall -c AccelerationMagnitude.c main.c 
- * gcc -Wall -L/usr/local/lib -o acc_test acc_test.c acc.o -lcunit
  *
 */
 
-
 #include "CUnit/CUnit.h"
 #include "CUnit/Basic.h"
-//#include "CUnit/Automated.h"
-//#include "CUnit/Console.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,38 +31,8 @@ void magnitude_of_6_3_2_is_7(void) {
   CU_ASSERT_EQUAL(calculateMagnitude(6, 3, 2) , 7);
 }
 
-void initialize_struct_accelerometer(void) {
-  Signal signal_arr[1] = {
-    {.t = 10, .x=6., .y=3., .z=2.}
-  };  
-  CU_ASSERT_EQUAL( signal_arr[0].t , 10);
-  CU_ASSERT_EQUAL( signal_arr[0].x , 6);
-  CU_ASSERT_EQUAL( signal_arr[0].y , 3);
-  CU_ASSERT_EQUAL( signal_arr[0].z , 2);
-}
-
 void spatial_data_is_commutative_for_magnitude(void) {
   CU_ASSERT_EQUAL(calculateMagnitude(3, 6, 2), calculateMagnitude(6, 2, 3));
-}
-
-void length_of_accelerometer_struct(void){
-  Signal signal_arr[2] = {
-    {.t = 10, .x=6., .y=3., .z=2.},
-    {.t = 10, .x=6., .y=3., .z=2.}
-  };
-  size_t length = sizeof(signal_arr)/sizeof(signal_arr[0]);
-  CU_ASSERT_EQUAL(length , 2);
-}
-
-void readCSV_line15(void) {
-  Signal signal_arr[7024];
-  char filepath[20];
-  strcpy(filepath, "data/AccData.csv");
-  readCSV(filepath, signal_arr, 0, 7024);
-  CU_ASSERT_EQUAL( signal_arr[14].t , 141);
-  CU_ASSERT_EQUAL( signal_arr[14].x , 1031.25);
-  CU_ASSERT_EQUAL( signal_arr[14].y , 31.25);
-  CU_ASSERT_EQUAL( signal_arr[14].z , -62.5);
 }
 
 void repeat_magnitude_calculation_should_not_change_result(void) {
@@ -137,10 +101,10 @@ int main ( void ){
 
    /* add the tests to the suite */
    if ( (NULL == CU_add_test(pSuite, "magnitude_of_6_3_2_is_7", magnitude_of_6_3_2_is_7)) ||
-        (NULL == CU_add_test(pSuite, "initialize_struct_accelerometer", initialize_struct_accelerometer)) ||
+        //(NULL == CU_add_test(pSuite, "initialize_struct_accelerometer", initialize_struct_accelerometer)) ||
         (NULL == CU_add_test(pSuite, "spatial_data_is_commutative_for_magnitude", spatial_data_is_commutative_for_magnitude)) ||
-        (NULL == CU_add_test(pSuite, "length_of_accelerometer_struct", length_of_accelerometer_struct)) ||
-        (NULL == CU_add_test(pSuite, "readCSV_line15", readCSV_line15)) |
+        //(NULL == CU_add_test(pSuite, "length_of_accelerometer_struct", length_of_accelerometer_struct)) ||
+        //(NULL == CU_add_test(pSuite, "readCSV_line15", readCSV_line15)) |
         (NULL == CU_add_test(pSuite, "repeat_magnitude_calculation_should_not_change_result", repeat_magnitude_calculation_should_not_change_result)) ||
         (NULL == CU_add_test(pSuite, "calculateMagnitudeFromCSV_tested_with_differnt_nsplits", calculateMagnitudeFromCSV_tested_with_differnt_nsplits))  
       )
@@ -155,14 +119,7 @@ int main ( void ){
    printf("\n");
    CU_basic_show_failures(CU_get_failure_list());
    printf("\n\n");
-/*
-   // Run all tests using the automated interface
-   CU_automated_run_tests();
-   CU_list_tests_to_file();
 
-   // Run all tests using the console interface
-   CU_console_run_tests();
-*/
    /* Clean up registry and return */
    CU_cleanup_registry();
    return CU_get_error();

@@ -10,8 +10,8 @@ TESTDIR= test
 PYTHONDIR= -L/usr/include/python2.7
 INC=-I$(SRCDIR) -I$(TESTDIR) -I$(PYTHONDIR)
 
-OBJS= acc.o DataLoader.o
-TESTS=acc_test.o
+OBJS= AccelerationMagnitude.o DataLoader.o
+TESTS= DataLoader_test.o AccelerationMagnitude_test.o
 
 %.o :	$(SRCDIR)/%.c
 	$(CC) -c $^ -o $@ $(INC)
@@ -23,26 +23,25 @@ TESTS=acc_test.o
 myomag:	$(OBJS) main.o
 	$(CC) -o $@ $^ $(INC)
 
-myomag_test:	$(TESTS) $(OBJS) 
+dataloader_test: DataLoader_test.o $(OBJS) 
+	$(CC) -L/usr/local/lib -o $@ $^ $(INC) $(LDFLAGS)
+
+accelerationmagnitude_test: AccelerationMagnitude_test.o $(OBJS) 
 	$(CC) -L/usr/local/lib -o $@ $^ $(INC) $(LDFLAGS)
 
 report :
 	xsltproc -novalid cunit-to-junit.xsl CUnitAutomated-Results.xml > myomag_TestResults.xml
 
 .PHONY : runtests
-runtests : myomag_test
-		./$<
+runtests : dataloader_test accelerationmagnitude_test
+		./dataloader_test
 
 .PHONY : all
-all : myomag myomag_test
+all : myomag dataloader_test accelerationmagnitude_test
 
 .PHONY : clean
 clean :
-	(RM) myomag
-	(RM) tests
-	(RM) CUnit*.xml
-	(RM) myomag_TestResults.xml.xml
-	(RM) *.o
-	(RM) *~
-	(RM) src/*~
-	(RM) test/*~
+	$(RM) myomag
+	$(RM) accelerationmagnitude_test
+	$(RM) dataloader_test
+	$(RM) *.o
