@@ -85,7 +85,7 @@ The package will be installed and saved now in the site-packages folder of your 
 
 ## Notes on the source code
 
-- Myomag is written in C and embedded in a Python environment.
+- Myomag is written in C and embedded in a Python 2.7 environment.
 
 - The memory occupation is optimized by:
 	- Reading only a small number (1/nsplits) of records from the CSV file.
